@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
 
         String to="9497421750";
         String body = "SCORE REPORT TEST";
-        String from = "9722174737";
+        String from = "5092609560";
 
         String nTo="&to=" +to;
         String nFrom  = "&from=+1"+from; //number being sent from, Must be owned in Message360 account. adds required +1 before from
