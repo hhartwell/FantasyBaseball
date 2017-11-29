@@ -15,6 +15,7 @@
         android:text="Teams:" />
 
     <ListView
+        android:id="@+id/teams_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_column="0"

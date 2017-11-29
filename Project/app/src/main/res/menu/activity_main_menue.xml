@@ -5,7 +5,11 @@
         android:id="@+id/createTeamAction"
         android:title = "Create Team"
         android:icon = "@android:drawable/ic_menu_add"
-        app:showAsAction="ifRoom"
-        />
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/sendScoreAction"
+        android:title = "send Score"
+        android:icon = "@android:drawable/ic_menu_send"
+        app:showAsAction="always"/>
 
 </menu>
