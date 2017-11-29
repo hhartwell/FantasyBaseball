@@ -1,5 +1,4 @@
-package harvey.com.fantasybaseball;
-
+package com.example.danielrichard.myapplication;
 
 import org.junit.Test;
 
