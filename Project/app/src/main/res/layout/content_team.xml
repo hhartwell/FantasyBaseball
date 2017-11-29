@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:columnCount="1"
+    android:rowCount="2"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="harvey.com.fantasybaseball.Team"
+    tools:showIn="@layout/activity_team">
+
+
+    <TextView
+        android:id="@+id/player_team"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_row="0"
+        android:text="player team" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</GridLayout>
