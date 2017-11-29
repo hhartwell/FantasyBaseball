@@ -1,6 +1,9 @@
 package harvey.com.fantasybaseball;
 
 import android.content.Intent;
+import android.os.Build;
+import android.os.StrictMode;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,7 +15,17 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends AppCompatActivity {
     // still need to create the listView
@@ -20,8 +33,11 @@ public class MainActivity extends AppCompatActivity {
     ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         initListView();
         addListViewItemClickListener();
@@ -35,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int menuId = item.getItemId();
@@ -43,7 +60,11 @@ public class MainActivity extends AppCompatActivity {
                 // needs to launch the Team activity
             case R.id.sendScoreAction:
                 // sends the winning team's score to all players
-                sendScores();
+                try {
+                    sendScores();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 Toast.makeText(this, "Winning Scores sent", Toast.LENGTH_SHORT).show();
             default:
 
@@ -82,7 +103,41 @@ public class MainActivity extends AppCompatActivity {
     /**
      * sends out the winning team via text
      */
-    private void sendScores(){
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void sendScores() throws IOException {
+        URL url = new URL("https://api.message360.com/api/v3/sms/sendsms.xml");
+        String userPassword = "2f50b196-af9c-dcc7-1228-e08b62128704:51a9ae603a079aea1eb394661770ff92"; //Message360 Account SID and Password
+
+
+        HttpsURLConnection httpCon = (HttpsURLConnection) url.openConnection();
+        httpCon.setDoInput(true);
+        httpCon.setDoOutput(true);
+        String encoded = Base64.getEncoder().encodeToString((userPassword).getBytes(StandardCharsets.UTF_8));  //required to send HTTPS POST
+        httpCon.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2"); //The API requires a User agent
+        httpCon.setRequestProperty("Authorization", "Basic " + encoded);
+        httpCon.setRequestMethod("POST");
+        OutputStream os = httpCon.getOutputStream();
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+
+        String to="9497421750";
+        String body = "SCORE REPORT TEST";
+        String from = "9722174737";
+
+        String nTo="&to=" +to;
+        String nFrom  = "&from=+1"+from; //number being sent from, Must be owned in Message360 account. adds required +1 before from
+        String method = "&method=POST";
+        String nBody ="&body="+body;
+        String smartSMS="&smartsms=false";
+        String parameters= nTo + nFrom + method + nBody + smartSMS ;
+
+        writer.write(parameters); //parameters for the POST request required by Message360
+        writer.flush();
+        writer.close();
+        os.close();
+        httpCon.getResponseCode();
+        httpCon.connect();
+
+        httpCon.disconnect();
 
     }
 
