@@ -1,10 +1,13 @@
 package harvey.com.fantasybaseball;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -19,12 +22,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        listView = (ListView) findViewById(R.id.teams_list_view);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_list_item_1,
-                createDummyList()
-        );
+
+        initListView();
+        addListViewItemClickListener();
 
     }
     @Override
@@ -53,6 +53,40 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * initializes the list view with the dummy list
+     * creates and attatches an array adapter
+     */
+    private void initListView(){
+        listView = (ListView) findViewById(R.id.teams_list_view);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_list_item_1,
+                createDummyList()
+        );
+        listView.setAdapter(arrayAdapter);
+    }
+
+    private void addListViewItemClickListener(){
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                startTeamActivity();
+            }
+        });
+    }
+    private void startTeamActivity(){
+        Intent i = new Intent(this, Team.class);
+        startActivity(i);
+    }
+
+    /**
+     * sends out the winning team via text
+     */
+    private void sendScores(){
+
+    }
+
+    /**
      * function used for testing purposes only.
      * creates a super simple list as a place holder
      * @return
@@ -64,11 +98,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return dummyList;
-    }
-    /**
-     * sends out the winning team via text
-     */
-    private void sendScores(){
-
     }
 }
