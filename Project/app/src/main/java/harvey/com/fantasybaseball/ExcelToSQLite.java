@@ -23,7 +23,7 @@ import java.util.List;
  * Created by Harvey on 12/3/2017.
  */
 
-public class ExcelToSQLite extends SQLiteOpenHelper{
+public class ExcelToSQLite extends SQLiteOpenHelper {
     static final String DATABASE_NAME = "fantasy_baseball_DB";
     static final int DATABASE_VERSION = 1;
     static final String TABLE_TEAMS = "teams";
@@ -31,7 +31,7 @@ public class ExcelToSQLite extends SQLiteOpenHelper{
     static final String TAG = "EXCEL TO SQLITE";
     private Context context;
 
-    public ExcelToSQLite(Context context){
+    public ExcelToSQLite(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
     }
@@ -46,15 +46,17 @@ public class ExcelToSQLite extends SQLiteOpenHelper{
         db.execSQL(sqlPlayerTable);
         db.execSQL(sqlTeamTable);
     }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
-    private String dropTable(String table){
+
+    private String dropTable(String table) {
         return "DROP TABLE IF EXISTS " + table + ";";
     }
 
-    public String createTeamsTable(){
+    public String createTeamsTable() {
         String createTable = "";
         // team name
         // user id
@@ -70,7 +72,7 @@ public class ExcelToSQLite extends SQLiteOpenHelper{
         return createTable;
     }
 
-    private String createPlayerTable(){
+    private String createPlayerTable() {
         String createTable = "";
         createTable += "CREATE TABLE players ( " +
                 "user_id INTEGER, " +
@@ -99,9 +101,10 @@ public class ExcelToSQLite extends SQLiteOpenHelper{
      * 1 - team_name
      * 2 - user_id
      * 3 - user_name
+     *
      * @return string that takes 3 parameters to be used in a prepared statment
      */
-    public String insertIntoTeamsTable(){
+    public String insertIntoTeamsTable() {
         String querey = "";
         querey += "INSERT INTO " + TABLE_TEAMS + " (team_name, user_id, user_name) VALUES(?, ?, ?);";
         return querey;
@@ -118,25 +121,26 @@ public class ExcelToSQLite extends SQLiteOpenHelper{
 
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
-        while ((line = br.readLine()) != null){
+        while ((line = br.readLine()) != null) {
             StringBuilder sb = new StringBuilder(header);
             String[] str = line.split(",");
             sb.append("'" + str[0] + "',");
-            for (int i = 1; i < 13; i++){
+            for (int i = 1; i < 13; i++) {
                 sb.append("'" + str[i] + "',");
             }
-            sb.append("'" + str[str.length-1] + "'");
+            sb.append("'" + str[str.length - 1] + "'");
             sb.append(closing);
             db.execSQL(sb.toString());
         }
         db.setTransactionSuccessful();
         db.endTransaction();
     }
-    public List<PlayerObject> getSelectAllPlayersList(){
+
+    public List<PlayerObject> getSelectAllPlayersList() {
         // debugging method;
         List<PlayerObject> players = new ArrayList<PlayerObject>();
         Cursor cursor = getSelectAllPlayerObjectsCursor();
-        while(cursor.moveToNext()){
+        while (cursor.moveToNext()) {
             String name = cursor.getString(1);
             int pid = cursor.getInt(2);
             players.add(new PlayerObject(name, pid));
@@ -152,10 +156,11 @@ public class ExcelToSQLite extends SQLiteOpenHelper{
         Cursor cursor = db.rawQuery(query, null);
         return cursor;
     }
-    public List<String> getSelectAllTeamsList(){
+
+    public List<String> getSelectAllTeamsList() {
         List<String> teams = new ArrayList<>();
         Cursor cursor = getSelectAllTeamsCursor();
-        while (cursor.moveToNext()){
+        while (cursor.moveToNext()) {
             String team = "{" + cursor.getString(0) + ", ";
             team += cursor.getLong(1) + ", ";
             team += cursor.getString(2) + "}";
@@ -163,12 +168,51 @@ public class ExcelToSQLite extends SQLiteOpenHelper{
         }
         return teams;
     }
-    private Cursor getSelectAllTeamsCursor(){
+
+    private Cursor getSelectAllTeamsCursor() {
         String query =
                 "SELECT * " + "" +
-                "FROM " + TABLE_TEAMS +";";
+                "FROM " + TABLE_TEAMS + ";";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
         return cursor;
+    }
+
+    /**
+     * selcects attr. from a sepecified table. meant to be used in prepared stmt
+     * where prepared val is the attr.
+     * if ordered is true, then there is a prepared field for attr to be ordered by.
+     *
+     * @param tableName
+     * @param ordered
+     * @return
+     */
+    public String getSelectPreparedQuery(String tableName, boolean ordered) {
+        String query = "";
+        query += "SELECT ? " +
+                "FROM " + tableName;
+        if (ordered) {
+            query += " ORDER BY ?";
+        }
+        query += ";";
+        Log.d(TAG, "getSelectOnePreparedQuery: " + query);
+        return query;
+    }
+    public Cursor execSelectStmt(SQLiteStatement stmt, String... args) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(stmt.toString(), args);
+        return cursor;
+    }
+
+    /**
+     * returns string for query.
+     * example : getOrderByQuery("ba");
+     * @param orderBy
+     * @return
+     */
+    public String getOrderByQuery(String orderBy){
+        String query = "";
+        query += "SELECT * FROM " + TABLE_PLAYERS + " ORDER BY "+ orderBy +";";
+        return query;
     }
 }
