@@ -45,7 +45,10 @@ public class DraftTeam extends AppCompatActivity {
 
 
     }
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> ddf675783e3b4d23c59504db331bf09f9362d79a
 }
