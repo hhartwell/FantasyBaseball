@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
         initListView();
         addListViewItemClickListener();
-
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -55,21 +54,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int menuId = item.getItemId();
-        switch(menuId){
-            case R.id.createTeamAction:
-                // needs to launch the Team activity
-            case R.id.sendScoreAction:
-                // sends the winning team's score to all players
-                try {
-                    sendScores();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                Toast.makeText(this, "Winning Scores sent", Toast.LENGTH_SHORT).show();
-            default:
-
+        if (menuId == R.id.createTeamAction){
+            // needs to launch the Team activity
+            Intent i = new Intent(this, DraftTeam.class);
+            startActivity(i);
         }
-
+        else if (menuId == R.id.sendScoreAction){
+            // sends the winning team's score to all players
+            try {
+                sendScores();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Toast.makeText(this, "Winning Scores sent", Toast.LENGTH_SHORT).show();
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -119,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         OutputStream os = httpCon.getOutputStream();
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
 
-        String to="9497421750";
+        String to="5099190888";
         String body = "SCORE REPORT TEST";
         String from = "5092609560";
 
@@ -151,7 +149,6 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < 20; i++) {
             dummyList.add("team: " + i);
         }
-
         return dummyList;
     }
 }
