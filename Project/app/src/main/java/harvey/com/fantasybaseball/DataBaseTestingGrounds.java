@@ -1,5 +1,6 @@
 package harvey.com.fantasybaseball;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
+import java.util.List;
 
 /**
  * class used for testing purposes only
@@ -31,6 +33,8 @@ public class DataBaseTestingGrounds extends AppCompatActivity {
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
         SQLiteStatement stmt = db.compileStatement(databaseHelper.insertIntoTeamsTable());
 
+        // insert rows into teams
+
         // first row in teams
         stmt.bindString(1, "team name");
         stmt.bindLong(2, 5099190888L);
@@ -42,8 +46,13 @@ public class DataBaseTestingGrounds extends AppCompatActivity {
         stmt.bindLong(2, 1112223333L);
         stmt.bindString(3, "user2");
         stmt.execute();
-
         Log.d(TAG, databaseHelper.getSelectAllTeamsList().toString());
+
+        // query teams
+        String baQuery = databaseHelper.getOrderByQuery("ba");
+        Cursor cursor = db.rawQuery(baQuery, null);
+
         databaseHelper.close();
+
     }
 }
