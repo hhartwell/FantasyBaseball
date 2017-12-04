@@ -171,10 +171,10 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor = databaseHelper.getSelectAllTeamsCursor();
         CursorAdapter cursorAdapter = new SimpleCursorAdapter(
                 this,
-                android.R.layout.simple_expandable_list_item_2,
+                android.R.layout.simple_expandable_list_item_1,
                 cursor,
-                new String[] {ExcelToSQLite.TEAM_NAME, ExcelToSQLite.USER_NAME},
-                new int[] {android.R.id.text1, android.R.id.text2},
+                new String[] {ExcelToSQLite.TEAM_NAME},
+                new int[] {android.R.id.text1},
                 0);
         listView.setAdapter(cursorAdapter);
     }

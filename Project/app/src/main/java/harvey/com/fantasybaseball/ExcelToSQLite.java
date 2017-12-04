@@ -68,11 +68,9 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
         String createTable = "";
         // team name
         // user id
-        // username
         createTable += "CREATE TABLE teams ( " +
                 "team_name TEXT, " +
                 "user_id INTEGER, " +
-                "user_name TEXT, " +
                 "_id INTEGER AUTOINCREMENT, " +
                 "PRIMARY KEY (user_id), " +
                 "FOREIGN KEY (user_id) REFERENCES players (user_id) " +
