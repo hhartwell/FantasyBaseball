@@ -91,7 +91,7 @@
             android:layout_height="350dp" />
 
         <EditText
-            android:id="@+id/editText15"
+            android:id="@+id/playerID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
