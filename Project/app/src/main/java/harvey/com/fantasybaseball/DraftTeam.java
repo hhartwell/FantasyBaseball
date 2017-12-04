@@ -10,4 +10,7 @@ public class DraftTeam extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_draft_team);
     }
+    public void insertIntoTeamsTable(){
+
+    }
 }

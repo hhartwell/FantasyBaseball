@@ -5,6 +5,7 @@ import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -102,7 +103,7 @@ public class ExcelToSQLite extends SQLiteOpenHelper{
      */
     public String insertIntoTeamsTable(){
         String querey = "";
-        querey += "INSERT INTO TABLE teams (team_name, user_id, user_name) VALUES(?, ?, ?);";
+        querey += "INSERT INTO " + TABLE_TEAMS + " (team_name, user_id, user_name) VALUES(?, ?, ?);";
         return querey;
     }
 
@@ -147,6 +148,25 @@ public class ExcelToSQLite extends SQLiteOpenHelper{
         String query =
                 "SELECT * " +
                 "From " + TABLE_PLAYERS + ";";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        return cursor;
+    }
+    public List<String> getSelectAllTeamsList(){
+        List<String> teams = new ArrayList<>();
+        Cursor cursor = getSelectAllTeamsCursor();
+        while (cursor.moveToNext()){
+            String team = "{" + cursor.getString(0) + ", ";
+            team += cursor.getLong(1) + ", ";
+            team += cursor.getString(2) + "}";
+            teams.add(team);
+        }
+        return teams;
+    }
+    private Cursor getSelectAllTeamsCursor(){
+        String query =
+                "SELECT * " + "" +
+                "FROM " + TABLE_TEAMS +";";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
         return cursor;

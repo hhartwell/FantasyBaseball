@@ -30,8 +30,20 @@ public class DataBaseTestingGrounds extends AppCompatActivity {
         Log.d(TAG, databaseHelper.getSelectAllPlayersList().toString());
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
         SQLiteStatement stmt = db.compileStatement(databaseHelper.insertIntoTeamsTable());
-        stmt.bindLong(1, 5099190888L);
 
+        // first row in teams
+        stmt.bindString(1, "team name");
+        stmt.bindLong(2, 5099190888L);
+        stmt.bindString(3, "user name");
+        stmt.execute();
+
+        // second row in teams
+        stmt.bindString(1, "team 2");
+        stmt.bindLong(2, 1112223333L);
+        stmt.bindString(3, "user2");
+        stmt.execute();
+
+        Log.d(TAG, databaseHelper.getSelectAllTeamsList().toString());
         databaseHelper.close();
     }
 }
