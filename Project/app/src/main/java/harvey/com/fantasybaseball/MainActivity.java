@@ -1,18 +1,26 @@
 package harvey.com.fantasybaseball;
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.os.Build;
 import android.os.StrictMode;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CursorAdapter;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 import java.io.BufferedWriter;
@@ -24,6 +32,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -31,15 +40,21 @@ public class MainActivity extends AppCompatActivity {
     // still need to create the listView
 
     ListView listView;
+    ExcelToSQLite databaseHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        initListView();
+        // create database
+        this.deleteDatabase(ExcelToSQLite.DATABASE_NAME);
+        databaseHelper = new ExcelToSQLite(this);
+
+
+        //initListView();
+        populateTeamsList();
         addListViewItemClickListener();
     }
     @Override
@@ -150,5 +165,17 @@ public class MainActivity extends AppCompatActivity {
             dummyList.add("team: " + i);
         }
         return dummyList;
+    }
+    private void populateTeamsList(){
+        listView = (ListView) findViewById(R.id.teams_list_view);
+        Cursor cursor = databaseHelper.getSelectAllTeamsCursor();
+        CursorAdapter cursorAdapter = new SimpleCursorAdapter(
+                this,
+                android.R.layout.simple_expandable_list_item_2,
+                cursor,
+                new String[] {ExcelToSQLite.TEAM_NAME, ExcelToSQLite.USER_NAME},
+                new int[] {android.R.id.text1, android.R.id.text2},
+                0);
+        listView.setAdapter(cursorAdapter);
     }
 }

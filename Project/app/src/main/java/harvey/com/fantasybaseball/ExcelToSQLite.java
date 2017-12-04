@@ -26,8 +26,16 @@ import java.util.List;
 public class ExcelToSQLite extends SQLiteOpenHelper {
     static final String DATABASE_NAME = "fantasy_baseball_DB";
     static final int DATABASE_VERSION = 1;
+
+    // teams table and all its attributes
     static final String TABLE_TEAMS = "teams";
+    static final String Id = "_id";
+    static final String TEAM_NAME = "team_name";
+    static final String USER_ID = "user_id";
+    static final String USER_NAME = "user_name";
+
     static final String TABLE_PLAYERS = "players";
+
     static final String TAG = "EXCEL TO SQLITE";
     private Context context;
 
@@ -65,6 +73,7 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
                 "team_name TEXT, " +
                 "user_id INTEGER, " +
                 "user_name TEXT, " +
+                "_id INTEGER AUTOINCREMENT, " +
                 "PRIMARY KEY (user_id), " +
                 "FOREIGN KEY (user_id) REFERENCES players (user_id) " +
                 "ON DELETE CASCADE ON UPDATE NO ACTION" +
@@ -90,6 +99,7 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
                 "era REAL, " +
                 "bb REAL, " +
                 "whip REAL, " +
+                "_id INTEGER AUTOINCREMENT, " +
                 "PRIMARY KEY (pid));";
         Log.d(TAG, "createPlayer table: " + createTable);
         return createTable;
@@ -169,7 +179,7 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
         return teams;
     }
 
-    private Cursor getSelectAllTeamsCursor() {
+    public Cursor getSelectAllTeamsCursor() {
         String query =
                 "SELECT * " + "" +
                 "FROM " + TABLE_TEAMS + ";";

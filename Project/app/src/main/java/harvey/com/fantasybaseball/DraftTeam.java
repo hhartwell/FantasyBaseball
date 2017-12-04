@@ -10,7 +10,7 @@ public class DraftTeam extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_draft_team);
     }
-<<<<<<< HEAD
+
     public void insertIntoTeamsTable(){
         //insert phone number, team name... into table
 
@@ -19,8 +19,4 @@ public class DraftTeam extends AppCompatActivity {
         //update row in table with team ID of player to indicate its drafted
         //update listView
     }
-
-
-=======
->>>>>>> b5b01ca537e457e94546798e9d801be7c5b06109
 }
