@@ -99,10 +99,10 @@
             android:text="Enter Player ID (PID) you want to Draft" />
 
         <Button
-            android:id="@+id/DRAFT PLAYER"
+            android:id="@+id/draftPlayer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:text="DRAFT PLAYER" />
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
