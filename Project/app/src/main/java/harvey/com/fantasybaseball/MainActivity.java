@@ -38,6 +38,7 @@ import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends AppCompatActivity {
+    static final String TAG = "MAIN ACTIVITY";
     // still need to create the listView
     int weekCount =0;
     int team1Wins = 0;
@@ -53,19 +54,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "IN ONCREATE");
         setContentView(R.layout.activity_main);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
         // create database
-        this.deleteDatabase(ExcelToSQLite.DATABASE_NAME);
         databaseHelper = new ExcelToSQLite(this);
-        try {
-            databaseHelper.populateTeamsTable();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        
         //initListView();
         populateTeamsList();
         addListViewItemClickListener();
@@ -316,5 +312,12 @@ public class MainActivity extends AppCompatActivity {
                 new int[] {android.R.id.text1},
                 0);
         listView.setAdapter(cursorAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "IN ON RESUME");
+        populateTeamsList();
     }
 }

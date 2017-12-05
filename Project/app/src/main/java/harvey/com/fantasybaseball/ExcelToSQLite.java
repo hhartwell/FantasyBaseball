@@ -53,8 +53,14 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
         db.execSQL(dropTable(TABLE_TEAMS));
         db.execSQL(dropTable(TABLE_PLAYERS));
 
+
         db.execSQL(sqlPlayerTable);
         db.execSQL(sqlTeamTable);
+        try {
+            populateTeamsTable();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -70,7 +76,7 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
         String createTable = "";
         // team name
         // user id
-        createTable += "CREATE TABLE teams ( " +
+        createTable += "CREATE TABLE IF NOT EXISTS teams ( " +
                 "team_name TEXT, " +
                 "_id INTEGER, " +
                 "PRIMARY KEY (_id), " +
@@ -82,7 +88,7 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
 
     private String createPlayerTable() {
         String createTable = "";
-        createTable += "CREATE TABLE players ( " +
+        createTable += "CREATE TABLE IF NOT EXISTS players IF ( " +
                 "user_id INTEGER, " +
                 "player_name TEXT, " +
                 "_id INTEGER, " +
