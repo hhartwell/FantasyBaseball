@@ -137,6 +137,14 @@ public class MainActivity extends AppCompatActivity {
 
         //Becuase there is no live data currently and pheasibility issues, we are going to script the season
 
+        ArrayList<String> teamNameArr = new ArrayList<String>();
+        ArrayList<String> teamPhoneNumber = new ArrayList<String>();
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(databaseHelper.getTeamNameQuery(), null);
+        while (cursor.moveToNext()){
+            teamNameArr.add(cursor.getString(0));
+            teamPhoneNumber.add(String.valueOf(cursor.getLong(1)));
+        }
         String team1Name = "Bob";
         String team2Name = "jon";
         String team3Name = "rob";

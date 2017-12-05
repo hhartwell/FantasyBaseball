@@ -32,7 +32,6 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
     static final String Id = "_id";
     static final String TEAM_NAME = "team_name";
     static final String USER_ID = "_id";
-    static final String USER_NAME = "user_name";
 
     // player table and attr names
     static final String PHONE_NUMBER = "user_id";
@@ -266,6 +265,16 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
         String query = "";
         query += "UPDATE " + TABLE_PLAYERS + " SET "+ PHONE_NUMBER + " = " + num +" WHERE _id = " + pid + ";";
         Log.d(TAG, "update: " + query);
+        return query;
+    }
+
+    /**
+     * used to retreive team names and phone numbers from team table
+     */
+    public String getTeamNameQuery(){
+        String query ="";
+        query += "SELECT " + TEAM_NAME + ", " + USER_ID +
+                " FROM " + TABLE_TEAMS + ";";
         return query;
     }
 }
