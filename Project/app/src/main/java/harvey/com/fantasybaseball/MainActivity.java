@@ -39,6 +39,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends AppCompatActivity {
     static final String TAG = "MAIN ACTIVITY";
+    CursorAdapter cursorAdapter;
     // still need to create the listView
     int weekCount =0;
     int team1Wins = 0;
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         // create database
         databaseHelper = new ExcelToSQLite(this);
-        
+
         //initListView();
         populateTeamsList();
         addListViewItemClickListener();
@@ -115,7 +116,11 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startTeamActivity();
+                Cursor cursor = cursorAdapter.getCursor();
+                cursor.moveToPosition(position);
+                Intent i = new Intent(MainActivity.this, Team.class);
+                i.putExtra("phone_number", cursor.getLong(1));
+                startActivity(i);
             }
         });
     }
@@ -304,7 +309,7 @@ public class MainActivity extends AppCompatActivity {
     private void populateTeamsList(){
         listView = (ListView) findViewById(R.id.teams_list_view);
         Cursor cursor = databaseHelper.getSelectAllTeamsCursor();
-        CursorAdapter cursorAdapter = new SimpleCursorAdapter(
+        cursorAdapter = new SimpleCursorAdapter(
                 this,
                 android.R.layout.simple_expandable_list_item_1,
                 cursor,

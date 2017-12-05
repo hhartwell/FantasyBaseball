@@ -39,6 +39,7 @@ public class Team extends AppCompatActivity {
                 new String[]{"player_name", "_id",  "ba", "h", "hr"},
                 new int[] {R.id.player_name_list, R.id.player_id_list, R.id.player_first, R.id.player_second, R.id.player_third},
                 0);
+        listView.setAdapter(cursorAdapter);
     }
 
     public void sortByHits(View view){
@@ -54,6 +55,7 @@ public class Team extends AppCompatActivity {
                 new String[]{"player_name", "_id",  "ba", "h", "hr"},
                 new int[] {R.id.player_name_list, R.id.player_id_list, R.id.player_first, R.id.player_second, R.id.player_third},
                 0);
+        listView.setAdapter(cursorAdapter);
     }
     public void sortByHR(View view){
         ListView listView = (ListView) (findViewById(R.id.roster));
@@ -68,7 +70,9 @@ public class Team extends AppCompatActivity {
                 new String[]{"player_name", "_id",  "ba", "h", "hr"},
                 new int[] {R.id.player_name_list, R.id.player_id_list, R.id.player_first, R.id.player_second, R.id.player_third},
                 0);
-    }public void sortByW(View view){
+        listView.setAdapter(cursorAdapter);
+    }
+    public void sortByW(View view){
         ListView listView = (ListView) (findViewById(R.id.roster));
         //Select players ordered by their wins
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
@@ -81,6 +85,7 @@ public class Team extends AppCompatActivity {
                 new String[]{"player_name", "_id",  "w", "era", "whip"},
                 new int[] {R.id.player_name_list, R.id.player_id_list, R.id.player_first, R.id.player_second, R.id.player_third},
                 0);
+        listView.setAdapter(cursorAdapter);
     }
     public void sortByERA(View view){
         ListView listView = (ListView) (findViewById(R.id.roster));
@@ -95,6 +100,7 @@ public class Team extends AppCompatActivity {
                 new String[]{"player_name", "_id",  "w", "era", "whip"},
                 new int[] {R.id.player_name_list, R.id.player_id_list, R.id.player_first, R.id.player_second, R.id.player_third},
                 0);
+        listView.setAdapter(cursorAdapter);
     }
     public void sortByWHIP(View view){
         ListView listView = (ListView) (findViewById(R.id.roster));
@@ -109,6 +115,7 @@ public class Team extends AppCompatActivity {
                 new String[]{"player_name", "_id",  "w", "era", "whip"},
                 new int[] {R.id.player_name_list, R.id.player_id_list, R.id.player_first, R.id.player_second, R.id.player_third},
                 0);
+        listView.setAdapter(cursorAdapter);
     }
 }
 
