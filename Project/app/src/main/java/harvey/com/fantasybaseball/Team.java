@@ -16,8 +16,10 @@ public class Team extends AppCompatActivity {
         setContentView(R.layout.activity_team);
 
         ListView listView = (ListView) (findViewById(R.id.roster));
-        //query SQL to populate listView
+        //query SQL to populate listView, default sort by name
     }
+
+
 
     public void sortByBA(View view){
         ListView listView = (ListView) (findViewById(R.id.roster));
