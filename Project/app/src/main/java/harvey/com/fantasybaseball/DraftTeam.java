@@ -1,5 +1,8 @@
 package harvey.com.fantasybaseball;
 
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,11 +15,13 @@ public class DraftTeam extends AppCompatActivity {
 
     int playersDrafted =0;
     boolean teamCreated;
+    ExcelToSQLite databaseHelper;
 
     // activity used to draft a team
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        databaseHelper = new ExcelToSQLite(this);
         setContentView(R.layout.activity_draft_team);
         teamCreated =false;
         updateViews();
@@ -85,6 +90,11 @@ public class DraftTeam extends AppCompatActivity {
         long phone= Long.parseLong(phoneNumber.getText().toString());
 
         if (teamCreated==false){
+            SQLiteDatabase db = databaseHelper.getWritableDatabase();
+            SQLiteStatement stmt = db.compileStatement(databaseHelper.insertIntoTeamsTable());
+            stmt.bindString(1, team);
+            stmt.bindLong(2, phone);
+            stmt.execute();
 
             teamCreated=true;
 
@@ -107,8 +117,8 @@ public class DraftTeam extends AppCompatActivity {
 
         if (playersDrafted==15){
             //return to main menu
-
-
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
         }
 
 
