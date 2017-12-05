@@ -1,5 +1,6 @@
 package harvey.com.fantasybaseball;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -21,6 +22,8 @@ public class Team extends AppCompatActivity {
         setContentView(R.layout.activity_team);
         databaseHelper = new ExcelToSQLite(this);
         ListView listView = (ListView) (findViewById(R.id.roster));
+        Intent recievedIntent = getIntent();
+        Long phoneNumber = recievedIntent.getLongExtra("phone_number", 5099190888L);
         //query SQL to populate listView, default sort by name
     }
 
