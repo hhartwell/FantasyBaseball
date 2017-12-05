@@ -197,20 +197,16 @@ public class MainActivity extends AppCompatActivity {
         String team6Phone="9497421750";
 
         if (weekCount==0){
-            AlertDialog.Builder dialog=new AlertDialog.Builder(MainActivity.this);
-            dialog.setTitle("Season Simulator");
-            dialog.setMessage("Week 1 has been simulated!");
-            dialog.setPositiveButton("OK", null);
-            dialog.show();
+            Toast.makeText(this, "Winning Scores sent", Toast.LENGTH_SHORT).show();
             sendScores(teamPhoneArr.get(0), ("You beat "+teamNameArr.get(1)+" by 3 points!"));
 
             sendScores(teamPhoneArr.get(1), ("You Lost to "+teamNameArr.get(0)+" by 3 points!"));
 
             team1Wins++;
-            /*
+
             sendScores(teamPhoneArr.get(2), ("You beat "+teamNameArr.get(3)+" by 7 points!"));
             sendScores(teamPhoneArr.get(3), ("You lost to "+teamNameArr.get(2)+" by 7 points!"));
-            team3Wins++;
+            team3Wins++;/*
             sendScores(teamPhoneArr.get(4), ("You beat "+teamNameArr.get(5)+" by 2 points!"));
             sendScores(teamPhoneArr.get(5), ("You lost to "+teamNameArr.get(4)+" by 2 points!"));
             team5Wins++;
@@ -221,26 +217,29 @@ public class MainActivity extends AppCompatActivity {
 
         }
         if (weekCount==1){
-            AlertDialog.Builder dialog=new AlertDialog.Builder(MainActivity.this);
-            dialog.setTitle("Season Simulator");
-            dialog.setMessage("Week 2 has been simulated!");
-            dialog.setPositiveButton("OK", null);
-            dialog.show();
-            sendScores(team1Phone, ("You beat "+team3Name+" by 4 points!"));
-            sendScores(team3Phone, ("You Lost to "+team1Name+"by 4 points!"));
+            Toast.makeText(this, "Winning Scores sent", Toast.LENGTH_SHORT).show();
+            sendScores(teamPhoneArr.get(0), ("You beat "+teamNameArr.get(3)+" by 3 points!"));
+
+            sendScores(teamPhoneArr.get(3), ("You Lost to "+teamNameArr.get(0)+" by 3 points!"));
+
             team1Wins++;
-            sendScores(team2Phone, ("You beat "+team5Name+" by 1 point!"));
-            sendScores(team5Phone, ("You Lost to "+team2Name+" by 1 point!"));
+
+            sendScores(teamPhoneArr.get(1), ("You beat "+teamNameArr.get(2)+" by 7 points!"));
+            sendScores(teamPhoneArr.get(2), ("You lost to "+teamNameArr.get(1)+" by 7 points!"));
+
+
+            team2Wins++;
+            /*
             team2Wins++;
             sendScores(team4Phone, ("You beat "+team6Name+" by 1 point!"));
             sendScores(team6Phone, ("You Lost to "+team4Name+" by 1 point!"));
             team4Wins++;
-            weekCount++;
+            weekCount++;*/
 
 
             return;
 
-        }
+        }/*
         if (weekCount==2){
             AlertDialog.Builder dialog=new AlertDialog.Builder(MainActivity.this);
             dialog.setTitle("Season Simulator");
@@ -266,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
             sendScores(team5Phone, "The winner is " + team1Name+"! The season has ended");
             sendScores(team6Phone, "The winner is " + team1Name+"! The season has ended");
             return;
-        }
+        }*/
 
 
     }

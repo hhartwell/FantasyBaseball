@@ -16,10 +16,10 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/teamName"
+            android:id="@+id/stats"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TEAM A" />
+            android:text="Player                                  PID           AVG         HITS         HR" />
 
         <LinearLayout
             android:layout_width="match_parent"

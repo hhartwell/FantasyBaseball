@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 
 public class Team extends AppCompatActivity {
 // this class will display a user's team
@@ -46,6 +47,8 @@ public class Team extends AppCompatActivity {
     }
 
     public void sortByBA(View view){
+        TextView header=(TextView) findViewById(R.id.stats);
+        header.setText("Player                           PID           HITS         AVG         HR");
         ListView listView = (ListView) (findViewById(R.id.roster));
         //Select players ordered by their batting average
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
@@ -62,6 +65,8 @@ public class Team extends AppCompatActivity {
     }
 
     public void sortByHits(View view){
+        TextView header=(TextView) findViewById(R.id.stats);
+        header.setText("Player                           PID           HITS         AVG         HR");
         ListView listView = (ListView) (findViewById(R.id.roster));
         //Select players ordered by their hits
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
@@ -77,6 +82,8 @@ public class Team extends AppCompatActivity {
         listView.setAdapter(cursorAdapter);
     }
     public void sortByHR(View view){
+        TextView header=(TextView) findViewById(R.id.stats);
+        header.setText("Player                           PID           HITS         AVG         HR");
         ListView listView = (ListView) (findViewById(R.id.roster));
         //Select players ordered by their home runs
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
@@ -92,6 +99,8 @@ public class Team extends AppCompatActivity {
         listView.setAdapter(cursorAdapter);
     }
     public void sortByW(View view){
+        TextView header=(TextView) findViewById(R.id.stats);
+        header.setText("Player                           PID           WINS         ERA         WHIP");
         ListView listView = (ListView) (findViewById(R.id.roster));
         //Select players ordered by their wins
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
@@ -107,6 +116,8 @@ public class Team extends AppCompatActivity {
         listView.setAdapter(cursorAdapter);
     }
     public void sortByERA(View view){
+        TextView header=(TextView) findViewById(R.id.stats);
+        header.setText("Player                           PID           WINS         ERA         WHIP");
         ListView listView = (ListView) (findViewById(R.id.roster));
         //Select players ordered by their ERA
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
@@ -122,6 +133,8 @@ public class Team extends AppCompatActivity {
         listView.setAdapter(cursorAdapter);
     }
     public void sortByWHIP(View view){
+        TextView header=(TextView) findViewById(R.id.stats);
+        header.setText("Player                           PID           WINS         ERA         WHIP");
         ListView listView = (ListView) (findViewById(R.id.roster));
         //Select players ordered by their WHIP
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
