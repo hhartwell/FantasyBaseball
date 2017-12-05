@@ -51,7 +51,11 @@ public class MainActivity extends AppCompatActivity {
         // create database
         this.deleteDatabase(ExcelToSQLite.DATABASE_NAME);
         databaseHelper = new ExcelToSQLite(this);
-
+        try {
+            databaseHelper.populateTeamsTable();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         //initListView();
         populateTeamsList();

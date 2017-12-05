@@ -124,7 +124,7 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
         BufferedReader br = new BufferedReader(new InputStreamReader(file, "UTF-8"));
 
         String line = "";
-        String columns = "player_name, pid, ab, r, h, hr, rbi, ba, obp, pitcher, w, era, bb, whip";
+        String columns = "player_name, _id, ab, r, h, hr, rbi, ba, obp, pitcher, w, era, bb, whip";
         String header = "INSERT INTO " + TABLE_PLAYERS + " (" + columns + ") VALUES (";
         String closing = ");";
 
@@ -239,8 +239,8 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
      */
     public String getQueryBatters(){
         String query = "";
-        String selectFields = "player_name, pid, ba, h, hr";
-        query = "SELECT " + selectFields + " From " + TABLE_TEAMS + " WEHRE _id IS NULL AND pitcher = 0;";
+        String selectFields = "player_name, _id, ba, h, hr";
+        query = "SELECT " + selectFields + " From " + TABLE_PLAYERS + " WHERE user_id IS NULL AND pitcher = 0;";
         return query;
     }
 
@@ -250,8 +250,8 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
      */
     public String getQueryPitchers(){
         String query = "";
-        String selectFields = "player_name, pid, w, era, whip";
-        query = "SELECT " + selectFields + " FROM " + TABLE_TEAMS + " WHERE _id IS NULL AND pitcher = 1;";
+        String selectFields = "player_name, _id, w, era, whip";
+        query = "SELECT " + selectFields + " FROM " + TABLE_PLAYERS + " WHERE user_id IS NULL AND pitcher = 1;";
         return query;
     }
 
@@ -263,7 +263,7 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
      */
     public String getPlayerDraftedQuery(int pid, Long num){
         String query = "";
-        query += "UPDATE " + TABLE_TEAMS + " SET "+ PHONE_NUMBER + " = " + num +" WHERE pid = " +pid + ";";
+        query += "UPDATE " + TABLE_PLAYERS + " SET "+ PHONE_NUMBER + " = " + num +" WHERE _id = " + pid + ";";
         Log.d(TAG, "update: " + query);
         return query;
     }
