@@ -112,11 +112,6 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(arrayAdapter);
     }
 
-    public void toGoInTeamOnCreate(){
-        Intent recievedIntent = getIntent();
-        recievedIntent.getLongExtra("phone_number", 5099190888L);
-    }
-
     private void addListViewItemClickListener(){
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
