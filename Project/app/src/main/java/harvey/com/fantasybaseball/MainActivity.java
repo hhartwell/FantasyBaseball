@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteStatement;
 import android.os.Build;
 import android.os.StrictMode;
 import android.support.annotation.RequiresApi;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -151,6 +152,11 @@ public class MainActivity extends AppCompatActivity {
         String team6Phone="9497421750";
 
         if (weekCount==0){
+            AlertDialog.Builder dialog=new AlertDialog.Builder(MainActivity.this);
+            dialog.setTitle("Season Simulator");
+            dialog.setMessage("Week 1 has been simulated!");
+            dialog.setPositiveButton("OK", null);
+            dialog.show();
             sendScores(team1Phone, ("You beat "+team2Name+" by 3 points!"));
 
             sendScores(team2Phone, ("You Lost to "+team1Name+" by 3 points!"));
@@ -163,10 +169,16 @@ public class MainActivity extends AppCompatActivity {
             sendScores(team6Phone, ("You Lost to "+team1Name+" by 2 points!"));
             team5Wins++;
             weekCount++;
+
             return;
 
         }
         if (weekCount==1){
+            AlertDialog.Builder dialog=new AlertDialog.Builder(MainActivity.this);
+            dialog.setTitle("Season Simulator");
+            dialog.setMessage("Week 2 has been simulated!");
+            dialog.setPositiveButton("OK", null);
+            dialog.show();
             sendScores(team1Phone, ("You beat "+team3Name+" by 4 points!"));
             sendScores(team3Phone, ("You Lost to "+team1Name+"by 4 points!"));
             team1Wins++;
@@ -177,10 +189,17 @@ public class MainActivity extends AppCompatActivity {
             sendScores(team6Phone, ("You Lost to "+team4Name+" by 1 point!"));
             team4Wins++;
             weekCount++;
+
+
             return;
 
         }
         if (weekCount==2){
+            AlertDialog.Builder dialog=new AlertDialog.Builder(MainActivity.this);
+            dialog.setTitle("Season Simulator");
+            dialog.setMessage("Week 3 has been simulated,!"+ "The winner is " + team1Name+"! The season has ended");
+            dialog.setPositiveButton("OK", null);
+            dialog.show();
             sendScores(team1Phone, ("You beat "+team6Name+" by 2 points!"));
             sendScores(team6Phone, ("You Lost to "+team1Name+"by 2 points!"));
             team1Wins++;
@@ -191,6 +210,7 @@ public class MainActivity extends AppCompatActivity {
             sendScores(team4Phone, ("You Lost to "+team4Name+"by 3 points!"));
             team4Wins++;
             weekCount++;
+
 
             sendScores(team1Phone, "The winner is " + team1Name+"! The season has ended");
             sendScores(team2Phone, "The winner is " + team1Name+"! The season has ended");
@@ -216,9 +236,7 @@ public class MainActivity extends AppCompatActivity {
          * Fun Fact about carriers:
          *
          * When using a long code (normal 10 digit number), the carriers do not like when you send more
-         * than one SMS per second, otherwise, the sending number may be blocked. This is because
-         * automated services that send SMS to large amounts of people should use a shortCode (number that
-         * is less than 10 digits, usually 6).
+         * than one SMS per second, otherwise, the sending number may be blocked.
          *
          * I have put in Thread.sleep with a generous time to buffer the time between messages being sent so as to prevent numbers
          * from being blocked.
@@ -262,6 +280,7 @@ public class MainActivity extends AppCompatActivity {
         httpCon.getResponseCode();
         httpCon.connect();
         httpCon.disconnect();
+        Log.d("MESSAGE SENT", (to +" content:   "+body));
 
 
     }
