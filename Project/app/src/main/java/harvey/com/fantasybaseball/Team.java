@@ -28,13 +28,15 @@ public class Team extends AppCompatActivity {
         //query SQL to populate listView, default sort by name
     }
 
+    public void populateListView(){
 
+    }
 
     public void sortByBA(View view){
         ListView listView = (ListView) (findViewById(R.id.roster));
         //Select players ordered by their batting average
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery(databaseHelper.getOrderByQuery("ba"), null);
+        Cursor cursor = db.rawQuery(databaseHelper.getTeamByNumberQueryAndOrderBy(phoneNumber, "ba"), null);
         // need a cursor adapter
         CursorAdapter cursorAdapter = new SimpleCursorAdapter(
                 this,
@@ -50,7 +52,7 @@ public class Team extends AppCompatActivity {
         ListView listView = (ListView) (findViewById(R.id.roster));
         //Select players ordered by their hits
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery(databaseHelper.getOrderByQuery("h"), null);
+        Cursor cursor = db.rawQuery(databaseHelper.getTeamByNumberQueryAndOrderBy(phoneNumber, "h"), null);
         // need a cursor adapter
         CursorAdapter cursorAdapter = new SimpleCursorAdapter(
                 this,
@@ -65,7 +67,7 @@ public class Team extends AppCompatActivity {
         ListView listView = (ListView) (findViewById(R.id.roster));
         //Select players ordered by their home runs
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery(databaseHelper.getOrderByQuery("hr"), null);
+        Cursor cursor = db.rawQuery(databaseHelper.getTeamByNumberQueryAndOrderBy(phoneNumber, "hr"), null);
         // need a cursor adapter
         CursorAdapter cursorAdapter = new SimpleCursorAdapter(
                 this,
@@ -80,7 +82,7 @@ public class Team extends AppCompatActivity {
         ListView listView = (ListView) (findViewById(R.id.roster));
         //Select players ordered by their wins
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery(databaseHelper.getOrderByQuery("w"), null);
+        Cursor cursor = db.rawQuery(databaseHelper.getTeamByNumberQueryAndOrderBy(phoneNumber, "w"), null);
         // need a cursor adapter
         CursorAdapter cursorAdapter = new SimpleCursorAdapter(
                 this,
@@ -95,7 +97,7 @@ public class Team extends AppCompatActivity {
         ListView listView = (ListView) (findViewById(R.id.roster));
         //Select players ordered by their ERA
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery(databaseHelper.getOrderByQuery("era"), null);
+        Cursor cursor = db.rawQuery(databaseHelper.getTeamByNumberQueryAndOrderBy(phoneNumber, "era"), null);
         // need a cursor adapter
         CursorAdapter cursorAdapter = new SimpleCursorAdapter(
                 this,
@@ -110,7 +112,7 @@ public class Team extends AppCompatActivity {
         ListView listView = (ListView) (findViewById(R.id.roster));
         //Select players ordered by their WHIP
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery(databaseHelper.getOrderByQuery("whip"), null);
+        Cursor cursor = db.rawQuery(databaseHelper.getTeamByNumberQueryAndOrderBy(phoneNumber, "whip"), null);
         // need a cursor adapter
         CursorAdapter cursorAdapter = new SimpleCursorAdapter(
                 this,
