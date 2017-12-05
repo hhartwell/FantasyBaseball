@@ -39,6 +39,10 @@ public class DraftTeam extends AppCompatActivity {
             Log.d(TAG, "inside first if clause");
             TextView textView = (TextView) findViewById(R.id.prompt);
             String message = "Please select a batter, you have "+ (10-playersDrafted) + " batters remaining";
+            textView.setText(message);
+            EditText pid = (EditText) findViewById(R.id.playerID);
+            pid.setText("");
+
             //SQL query batters and update tableview
             SQLiteDatabase db = databaseHelper.getWritableDatabase();
             Cursor cursor = db.rawQuery(databaseHelper.getQueryBatters(), null);
