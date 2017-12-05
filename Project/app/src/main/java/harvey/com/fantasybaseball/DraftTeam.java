@@ -143,15 +143,16 @@ public class DraftTeam extends AppCompatActivity {
         dialog.show();
 
         //update row in DB with the PID and add the phone to the UID cell to show it is drafted.
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+        SQLiteStatement stmt = db.compileStatement(databaseHelper.getPlayerDraftedQuery(playerID, phone));
+        stmt.execute();
 
-
+        updateViews();
         if (playersDrafted==15){
             //return to main menu
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
         }
 
-
     }
-
 }

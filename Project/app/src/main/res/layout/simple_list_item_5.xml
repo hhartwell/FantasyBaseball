@@ -5,7 +5,7 @@
 
     <TextView
         android:id = "@+id/player_name_list"
-        android:layout_width="80dp"
+        android:layout_width="160dp"
         android:layout_height="30dp"
         android:paddingLeft = "10dp"
         android:paddingRight = "10dp" />
@@ -13,21 +13,21 @@
     <TextView
         android:id = "@+id/player_id_list"
         android:layout_toRightOf = "@id/player_name_list"
-        android:layout_width="30dp"
+        android:layout_width="40dp"
         android:layout_height="30dp" />
     <TextView
         android:id = "@+id/player_first"
         android:layout_toRightOf = "@id/player_id_list"
-        android:layout_width="30dp"
+        android:layout_width="40dp"
         android:layout_height="30dp" />
     <TextView
         android:id = "@+id/player_second"
         android:layout_toRightOf = "@id/player_first"
-        android:layout_width="30dp"
+        android:layout_width="40dp"
         android:layout_height="30dp" />
     <TextView
         android:id = "@+id/player_third"
         android:layout_toRightOf = "@id/player_second"
-        android:layout_width="30dp"
+        android:layout_width="40dp"
         android:layout_height="30dp" />
 </RelativeLayout>
