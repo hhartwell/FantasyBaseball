@@ -35,7 +35,7 @@ public class DraftTeam extends AppCompatActivity {
 
 
     public void updateViews(){
-        if (playersDrafted <=10){
+        if (playersDrafted <10){
             Log.d(TAG, "inside first if clause");
             TextView textView = (TextView) findViewById(R.id.prompt);
             String message = "Please select a batter, you have "+ (10-playersDrafted) + " batters remaining";
@@ -58,12 +58,14 @@ public class DraftTeam extends AppCompatActivity {
             ListView lv = (ListView) findViewById(R.id.listView);
             lv.setAdapter(cursorAdapter);
         }
-        if (playersDrafted >=11 && playersDrafted <15){
+        if (playersDrafted >=10 && playersDrafted <15){
             TextView header=(TextView) findViewById(R.id.header);
-            header.setText("Player                                  PID           WINS         ERA         WHIP")
+            header.setText("Player                                  PID           WINS         ERA         WHIP");
             TextView textView = (TextView) findViewById(R.id.prompt);
-            String message = "Please select a pitcher, you have "+ (5-playersDrafted) + " batters remaining";
+            String message = "Please select a pitcher, you have "+ (15 - playersDrafted) + " pitchers remaining";
+            textView.setText(message);
             //SQL query pitchers and update tableview
+
             SQLiteDatabase db = databaseHelper.getWritableDatabase();
             Cursor cursor = db.rawQuery(databaseHelper.getQueryPitchers(), null);
             // need a cursor adapter
@@ -142,11 +144,13 @@ public class DraftTeam extends AppCompatActivity {
 
 
         playersDrafted++;
+        /*
         AlertDialog.Builder dialog=new AlertDialog.Builder(DraftTeam.this);
         dialog.setTitle("Player Drafted");
         dialog.setMessage("Player has been drafted!");
         dialog.setPositiveButton("OK", null);
         dialog.show();
+        */
 
         //update row in DB with the PID and add the phone to the UID cell to show it is drafted.
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
