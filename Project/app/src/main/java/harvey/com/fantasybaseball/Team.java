@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
@@ -15,6 +16,7 @@ import android.widget.SimpleCursorAdapter;
 
 public class Team extends AppCompatActivity {
 // this class will display a user's team
+    static final String TAG = "TEAM";
     ExcelToSQLite databaseHelper;
     Long phoneNumber;
     @Override
@@ -27,15 +29,14 @@ public class Team extends AppCompatActivity {
         phoneNumber = recievedIntent.getLongExtra("phone_number", 5099190888L);
 
         //query SQL to populate listView, default sort by name
+        Log.d(TAG, String.valueOf(phoneNumber));
     }
-
-
 
     public void sortByBA(View view){
         ListView listView = (ListView) (findViewById(R.id.roster));
         //Select players ordered by their batting average
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery(databaseHelper.getOrderByQuery("ba"), null);
+        Cursor cursor = db.rawQuery(databaseHelper.getTeamByNumberQueryAndOrderBy(phoneNumber, "ba"), null);
         // need a cursor adapter
         CursorAdapter cursorAdapter = new SimpleCursorAdapter(
                 this,
@@ -51,7 +52,7 @@ public class Team extends AppCompatActivity {
         ListView listView = (ListView) (findViewById(R.id.roster));
         //Select players ordered by their hits
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery(databaseHelper.getOrderByQuery("h"), null);
+        Cursor cursor = db.rawQuery(databaseHelper.getTeamByNumberQueryAndOrderBy(phoneNumber, "h"), null);
         // need a cursor adapter
         CursorAdapter cursorAdapter = new SimpleCursorAdapter(
                 this,
@@ -66,7 +67,7 @@ public class Team extends AppCompatActivity {
         ListView listView = (ListView) (findViewById(R.id.roster));
         //Select players ordered by their home runs
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery(databaseHelper.getOrderByQuery("hr"), null);
+        Cursor cursor = db.rawQuery(databaseHelper.getTeamByNumberQueryAndOrderBy(phoneNumber, "hr"), null);
         // need a cursor adapter
         CursorAdapter cursorAdapter = new SimpleCursorAdapter(
                 this,
@@ -81,7 +82,7 @@ public class Team extends AppCompatActivity {
         ListView listView = (ListView) (findViewById(R.id.roster));
         //Select players ordered by their wins
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery(databaseHelper.getOrderByQuery("w"), null);
+        Cursor cursor = db.rawQuery(databaseHelper.getTeamByNumberQueryAndOrderBy(phoneNumber, "w"), null);
         // need a cursor adapter
         CursorAdapter cursorAdapter = new SimpleCursorAdapter(
                 this,
@@ -96,7 +97,7 @@ public class Team extends AppCompatActivity {
         ListView listView = (ListView) (findViewById(R.id.roster));
         //Select players ordered by their ERA
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery(databaseHelper.getOrderByQuery("era"), null);
+        Cursor cursor = db.rawQuery(databaseHelper.getTeamByNumberQueryAndOrderBy(phoneNumber, "era"), null);
         // need a cursor adapter
         CursorAdapter cursorAdapter = new SimpleCursorAdapter(
                 this,
@@ -111,7 +112,7 @@ public class Team extends AppCompatActivity {
         ListView listView = (ListView) (findViewById(R.id.roster));
         //Select players ordered by their WHIP
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery(databaseHelper.getOrderByQuery("whip"), null);
+        Cursor cursor = db.rawQuery(databaseHelper.getTeamByNumberQueryAndOrderBy(phoneNumber, "whip"), null);
         // need a cursor adapter
         CursorAdapter cursorAdapter = new SimpleCursorAdapter(
                 this,
