@@ -59,6 +59,8 @@ public class DraftTeam extends AppCompatActivity {
             lv.setAdapter(cursorAdapter);
         }
         if (playersDrafted >=11 && playersDrafted <15){
+            TextView header=(TextView) findViewById(R.id.header);
+            header.setText("Player                                  PID           WINS         ERA         WHIP")
             TextView textView = (TextView) findViewById(R.id.prompt);
             String message = "Please select a pitcher, you have "+ (5-playersDrafted) + " batters remaining";
             //SQL query pitchers and update tableview
