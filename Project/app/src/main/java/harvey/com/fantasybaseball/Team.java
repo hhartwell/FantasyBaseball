@@ -30,6 +30,19 @@ public class Team extends AppCompatActivity {
 
         //query SQL to populate listView, default sort by name
         Log.d(TAG, String.valueOf(phoneNumber));
+
+        //Select players ordered by their batting average
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+        Cursor cursor = db.rawQuery(databaseHelper.getTeamByNumberQueryAndOrderBy(phoneNumber, "ba"), null);
+        // need a cursor adapter
+        CursorAdapter cursorAdapter = new SimpleCursorAdapter(
+                this,
+                R.layout.simple_list_item_5,
+                cursor,
+                new String[]{"player_name", "_id",  "ba", "h", "hr"},
+                new int[] {R.id.player_name_list, R.id.player_id_list, R.id.player_first, R.id.player_second, R.id.player_third},
+                0);
+        listView.setAdapter(cursorAdapter);
     }
 
     public void sortByBA(View view){

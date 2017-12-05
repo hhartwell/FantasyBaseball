@@ -286,7 +286,7 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
     public String getTeamByNumberQueryAndOrderBy(Long phone_number, String orderBy){
         String query = "";
         query += "SELECT * FROM " + TABLE_PLAYERS;
-        query += " WHERE _id = "+ phone_number;
+        query += " WHERE user_id = "+ phone_number;
         query += " ORDER BY "+ orderBy +" DESC ;";
         return query;
     }
