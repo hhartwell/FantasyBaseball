@@ -47,7 +47,16 @@ public class DraftTeam extends AppCompatActivity {
         EditText PID = (EditText) findViewById(R.id.playerID);
 
 
-        if (phoneNumber.getText().toString()==""){
+        if (teamName.getText().toString().length()==0){
+            //Dialog "Enter a team name"
+            AlertDialog.Builder dialog=new AlertDialog.Builder(DraftTeam.this);
+            dialog.setTitle("Enter Team Name");
+            dialog.setMessage("Please enter a Team Name to draft a player");
+            dialog.setPositiveButton("OK", null);
+            dialog.show();
+            return;
+        }
+        if (phoneNumber.getText().toString().length()==0){
             //DIALOG "ENTER A PHONE NUMBER"
 
             AlertDialog.Builder dialog=new AlertDialog.Builder(DraftTeam.this);
@@ -58,16 +67,8 @@ public class DraftTeam extends AppCompatActivity {
 
             return;
         }
-        if (teamName.getText().toString()==""){
-            //Dialog "Enter a team name"
-            AlertDialog.Builder dialog=new AlertDialog.Builder(DraftTeam.this);
-            dialog.setTitle("Enter Team Name");
-            dialog.setMessage("Please enter a Team Name to draft a player");
-            dialog.setPositiveButton("OK", null);
-            dialog.show();
-            return;
-        }
-        if(PID.getText().toString()==""){
+
+        if(PID.getText().toString().length()==0){
             //Dialog "You must enter the playerID that you want to draft
 
             AlertDialog.Builder dialog=new AlertDialog.Builder(DraftTeam.this);
@@ -78,9 +79,10 @@ public class DraftTeam extends AppCompatActivity {
             return;
         }
 
-        int phone= Integer.parseInt(phoneNumber.getText().toString());
+
         String team = teamName.getText().toString();
         int playerID=Integer.parseInt(PID.getText().toString());
+        long phone= Long.parseLong(phoneNumber.getText().toString());
 
         if (teamCreated==false){
 
@@ -92,6 +94,12 @@ public class DraftTeam extends AppCompatActivity {
 
 
         playersDrafted++;
+        AlertDialog.Builder dialog=new AlertDialog.Builder(DraftTeam.this);
+        dialog.setTitle("Player Drafted");
+        dialog.setMessage("Player has been drafted!");
+        dialog.setPositiveButton("OK", null);
+        dialog.show();
+
         //update row in DB with the PID and add the phone to the UID cell to show it is drafted.
 
 

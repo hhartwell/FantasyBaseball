@@ -86,13 +86,13 @@
         android:layout_width="match_parent"
         android:layout_height="260dp" />
 
-        <EditText
-            android:id="@+id/playerID"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="number"
-            android:text="Enter Player ID (PID) you want to Draft" />
+    <EditText
+        android:id="@+id/playerID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Enter PID and press DRAFT PLAYER"
+        android:inputType="number" />
 
     <Button
         android:id="@+id/draftPlayer"
