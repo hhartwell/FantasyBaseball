@@ -38,13 +38,11 @@ public class DataBaseTestingGrounds extends AppCompatActivity {
         // first row in teams
         stmt.bindString(1, "team name");
         stmt.bindLong(2, 5099190888L);
-        stmt.bindString(3, "user name");
         stmt.execute();
 
         // second row in teams
         stmt.bindString(1, "team 2");
         stmt.bindLong(2, 1112223333L);
-        stmt.bindString(3, "user2");
         stmt.execute();
         Log.d(TAG, databaseHelper.getSelectAllTeamsList().toString());
 

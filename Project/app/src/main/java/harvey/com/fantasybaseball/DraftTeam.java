@@ -76,8 +76,6 @@ public class DraftTeam extends AppCompatActivity {
             dialog.setPositiveButton("OK", null);
             dialog.show();
             return;
-
-
         }
 
         int phone= Integer.parseInt(phoneNumber.getText().toString());

@@ -112,7 +112,7 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
      */
     public String insertIntoTeamsTable() {
         String querey = "";
-        querey += "INSERT INTO " + TABLE_TEAMS + " (team_name, user_id, user_name) VALUES(?, ?, ?);";
+        querey += "INSERT INTO " + TABLE_TEAMS + " (team_name, _id) VALUES(?, ?);";
         return querey;
     }
 
@@ -168,8 +168,7 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
         Cursor cursor = getSelectAllTeamsCursor();
         while (cursor.moveToNext()) {
             String team = "{" + cursor.getString(0) + ", ";
-            team += cursor.getLong(1) + ", ";
-            team += cursor.getString(2) + "}";
+            team += cursor.getLong(1) + "}";
             teams.add(team);
         }
         return teams;
@@ -221,4 +220,31 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
         query += "SELECT * FROM " + TABLE_PLAYERS + " ORDER BY "+ orderBy +";";
         return query;
     }
+    public String getUserTeamQuery(){
+        String query = "";
+        query +=
+                "SELECT * " +
+                "FROM " + this.TABLE_TEAMS + ", " + this.TABLE_PLAYERS +
+                " WHERE " + TABLE_TEAMS + "." + USER_ID + " = " + TABLE_PLAYERS + "." + USER_ID + ";";
+        return query;
+    }
+    // functions to be used in draftTeams activity
+
+    /**
+     * returns a query
+     * @return
+     */
+    public String getQueryBatters(){
+        String query = "";
+        String selectFields = "player_name, pid, ba, h, hr";
+        query = "SELECT " + selectFields + " From " + TABLE_TEAMS + " WEHRE _id IS NULL AND pitcher = 0;";
+        return query;
+    }
+    public String getQueryPitchers(){
+        String query = "";
+        String selectFields = "player_name, pid, w, era, whip";
+        query = "SELECT " + selectFields + " FROM " + TABLE_TEAMS + " WHERE _id IS NULL AND pitcher = 1;";
+        return query;
+    }
+
 }
