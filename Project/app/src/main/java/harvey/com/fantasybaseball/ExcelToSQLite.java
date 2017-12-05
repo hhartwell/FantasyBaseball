@@ -220,7 +220,8 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
      */
     public String getOrderByQuery(String orderBy){
         String query = "";
-        query += "SELECT * FROM " + TABLE_PLAYERS + " ORDER BY "+ orderBy +";";
+        query += "SELECT * FROM " + TABLE_PLAYERS;
+        query += " ORDER BY "+ orderBy +";";
         return query;
     }
     public String getUserTeamQuery(){
