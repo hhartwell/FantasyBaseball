@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     int team4Wins = 0;
     int team5Wins = 0;
     int team6Wins = 0;
+    boolean teamExists=false;
 
 
     ListView listView;
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         int menuId = item.getItemId();
         if (menuId == R.id.createTeamAction){
             // needs to launch the Team activity
+
             Intent i = new Intent(this, DraftTeam.class);
             startActivity(i);
         }
@@ -122,7 +124,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Cursor cursor = cursorAdapter.getCursor();
+
                 cursor.moveToPosition(position);
+                if(!teamExists) {
+                    populateTeamsList();
+                    addListViewItemClickListener();
+                    teamExists=true;
+                }
                 Intent i = new Intent(MainActivity.this, Team.class);
                 i.putExtra("phone_number", cursor.getLong(1));
                 startActivity(i);
@@ -322,6 +330,7 @@ public class MainActivity extends AppCompatActivity {
                 new int[] {android.R.id.text1},
                 0);
         listView.setAdapter(cursorAdapter);
+
     }
 
     @Override

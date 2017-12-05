@@ -88,7 +88,7 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
 
     private String createPlayerTable() {
         String createTable = "";
-        createTable += "CREATE TABLE IF NOT EXISTS players IF ( " +
+        createTable += "CREATE TABLE IF NOT EXISTS players ( " +
                 "user_id INTEGER, " +
                 "player_name TEXT, " +
                 "_id INTEGER, " +

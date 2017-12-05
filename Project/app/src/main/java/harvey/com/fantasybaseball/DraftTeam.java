@@ -21,6 +21,7 @@ public class DraftTeam extends AppCompatActivity {
     int playersDrafted;
     boolean teamCreated;
     ExcelToSQLite databaseHelper;
+    boolean
 
     // activity used to draft a team
     @Override
@@ -85,6 +86,7 @@ public class DraftTeam extends AppCompatActivity {
     }
 
     public void draftPlayerFromTable(View view){ // called when user presses draft team
+
         //update row in table with team ID of player to indicate its drafted
         //update listView
         EditText teamName = (EditText) findViewById(R.id.teamName);
