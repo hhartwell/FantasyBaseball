@@ -25,6 +25,7 @@ public class Team extends AppCompatActivity {
         ListView listView = (ListView) (findViewById(R.id.roster));
         Intent recievedIntent = getIntent();
         phoneNumber = recievedIntent.getLongExtra("phone_number", 5099190888L);
+
         //query SQL to populate listView, default sort by name
     }
 
