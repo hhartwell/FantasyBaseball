@@ -85,8 +85,10 @@ public class MainActivity extends AppCompatActivity {
         else if (menuId == R.id.sendScoreAction){
             // sends the winning team's score to all players
             try {
-                sendScores("9497421750","TESTMESSAGE");
+                simulateWeek();
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             Toast.makeText(this, "Winning Scores sent", Toast.LENGTH_SHORT).show();
@@ -123,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void simulateWeek() throws IOException{
+    private void simulateWeek() throws IOException, InterruptedException {
 
         //Will pull these numbers from the DB
 
@@ -145,51 +147,54 @@ public class MainActivity extends AppCompatActivity {
         String team6Phone="9497421750";
 
         if (weekCount==0){
-            sendScores(team1Phone, ("You beat"+team2Name+"by 3 points!"));
-            sendScores(team2Phone, ("You Lost to "+team1Name+"by 3 points!"));
+            sendScores(team1Phone, ("You beat "+team2Name+" by 3 points!"));
+
+            sendScores(team2Phone, ("You Lost to "+team1Name+" by 3 points!"));
+
             team1Wins++;
-            sendScores(team3Phone, ("You beat"+team4Name+"by 7 points!"));
-            sendScores(team4Phone, ("You Lost to "+team3Name+"by 7 points!"));
+            sendScores(team3Phone, ("You beat "+team4Name+" by 7 points!"));
+            sendScores(team4Phone, ("You Lost to "+team3Name+" by 7 points!"));
             team3Wins++;
-            sendScores(team5Phone, ("You beat"+team2Name+"by 2 points!"));
-            sendScores(team6Phone, ("You Lost to "+team1Name+"by 2 points!"));
+            sendScores(team5Phone, ("You beat "+team2Name+" by 2 points!"));
+            sendScores(team6Phone, ("You Lost to "+team1Name+" by 2 points!"));
             team5Wins++;
             weekCount++;
+            return;
 
         }
         if (weekCount==1){
-            sendScores(team1Phone, ("You beat"+team3Name+"by 4 points!"));
+            sendScores(team1Phone, ("You beat "+team3Name+" by 4 points!"));
             sendScores(team3Phone, ("You Lost to "+team1Name+"by 4 points!"));
             team1Wins++;
-            sendScores(team2Phone, ("You beat"+team5Name+"by 1 point!"));
-            sendScores(team5Phone, ("You Lost to "+team2Name+"by 1 point!"));
+            sendScores(team2Phone, ("You beat "+team5Name+" by 1 point!"));
+            sendScores(team5Phone, ("You Lost to "+team2Name+" by 1 point!"));
             team2Wins++;
-            sendScores(team4Phone, ("You beat"+team6Name+"by 1 point!"));
-            sendScores(team6Phone, ("You Lost to "+team4Name+"by 1 point!"));
+            sendScores(team4Phone, ("You beat "+team6Name+" by 1 point!"));
+            sendScores(team6Phone, ("You Lost to "+team4Name+" by 1 point!"));
             team4Wins++;
             weekCount++;
+            return;
 
         }
         if (weekCount==2){
-            sendScores(team1Phone, ("You beat"+team6Name+"by 2 points!"));
+            sendScores(team1Phone, ("You beat "+team6Name+" by 2 points!"));
             sendScores(team6Phone, ("You Lost to "+team1Name+"by 2 points!"));
             team1Wins++;
-            sendScores(team2Phone, ("You beat"+team2Name+"by 11points!"));
+            sendScores(team2Phone, ("You beat "+team2Name+" by 11points!"));
             sendScores(team5Phone, ("You Lost to "+team5Name+"by 11 points!"));
             team2Wins++;
-            sendScores(team3Phone, ("You beat"+team3Name+"by 3 points!"));
+            sendScores(team3Phone, ("You beat "+team3Name+" by 3 points!"));
             sendScores(team4Phone, ("You Lost to "+team4Name+"by 3 points!"));
             team4Wins++;
             weekCount++;
 
-        }
-        if (weekCount ==3){
             sendScores(team1Phone, "The winner is " + team1Name+"! The season has ended");
             sendScores(team2Phone, "The winner is " + team1Name+"! The season has ended");
             sendScores(team3Phone, "The winner is " + team1Name+"! The season has ended");
             sendScores(team4Phone, "The winner is " + team1Name+"! The season has ended");
             sendScores(team5Phone, "The winner is " + team1Name+"! The season has ended");
             sendScores(team6Phone, "The winner is " + team1Name+"! The season has ended");
+            return;
         }
 
 
@@ -201,6 +206,27 @@ public class MainActivity extends AppCompatActivity {
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void sendScores(String sNumber, String sBody) throws IOException {
+
+
+        /**
+         * Fun Fact about carriers:
+         *
+         * When using a long code (normal 10 digit number), the carriers do not like when you send more
+         * than one SMS per second, otherwise, the sending number may be blocked. This is because
+         * automated services that send SMS to large amounts of people should use a shortCode (number that
+         * is less than 10 digits, usually 6).
+         *
+         * I have put in Thread.sleep with a generous time to buffer the time between messages being sent so as to prevent numbers
+         * from being blocked.
+         */
+
+        try {
+            Thread.sleep(3500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
         URL url = new URL("https://api.message360.com/api/v3/sms/sendsms.xml");
         String userPassword = "2f50b196-af9c-dcc7-1228-e08b62128704:51a9ae603a079aea1eb394661770ff92"; //Message360 Account SID and Password
 
@@ -216,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
 
         String to=sNumber;
         String body = sBody;
-        String from = "5092609560"; //Number owned in Message360
+        String from = "5092609698"; //Number owned in Message360
 
         String nTo="&to=" +to;
         String nFrom  = "&from=+1"+from; //number being sent from, Must be owned in Message360 account. adds required +1 before from
@@ -232,6 +258,7 @@ public class MainActivity extends AppCompatActivity {
         httpCon.getResponseCode();
         httpCon.connect();
         httpCon.disconnect();
+
 
     }
 
