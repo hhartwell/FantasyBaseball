@@ -228,6 +228,12 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
                 " WHERE " + TABLE_TEAMS + "." + USER_ID + " = " + TABLE_PLAYERS + "." + USER_ID + ";";
         return query;
     }
+    // functions to be used in draftTeams activity
+
+    /**
+     * returns a query
+     * @return
+     */
     public String getQueryBatters(){
         String query = "";
         String selectFields = "player_name, pid, ba, h, hr";
@@ -240,4 +246,5 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
         query = "SELECT " + selectFields + " FROM " + TABLE_TEAMS + " WHERE _id IS NULL AND pitcher = 1;";
         return query;
     }
+
 }

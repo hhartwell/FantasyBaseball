@@ -18,18 +18,25 @@ public class DraftTeam extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_draft_team);
         teamCreated =false;
+        updateViews();
+    }
+
+
+    public void updateViews(){
         if (playersDrafted <=10){
             TextView textView = (TextView) findViewById(R.id.prompt);
             String message = "Please select a batter, you have "+ (10-playersDrafted) + " batters remaining";
+            //query batters and update tableview
+
+
         }
         if (playersDrafted >=11 && playersDrafted <15){
             TextView textView = (TextView) findViewById(R.id.prompt);
             String message = "Please select a pitcher, you have "+ (5-playersDrafted) + " batters remaining";
+            //query pitchers and update tableview
         }
+
     }
-
-
-
 
     public void draftPlayerFromTable(){ // called when user presses draft team
         //update row in table with team ID of player to indicate its drafted
@@ -61,6 +68,7 @@ public class DraftTeam extends AppCompatActivity {
         }
         if(PID.getText().toString()==""){
             //Dialog "You must enter the playerID that you want to draft
+
             AlertDialog.Builder dialog=new AlertDialog.Builder(DraftTeam.this);
             dialog.setTitle("Enter Team Name");
             dialog.setMessage("Please enter a Team Name to draft a player");
@@ -77,17 +85,9 @@ public class DraftTeam extends AppCompatActivity {
 
             teamCreated=true;
 
-            //SQL INSERT LOGIC GOES BELOW
+            //SQL INSERT LOGIC GOES BELOW to insert team in to teams table
         }
-        if (playersDrafted <=10){
-            TextView textView = (TextView) findViewById(R.id.prompt);
-            String message = "Please select a batter, you have "+ (10-playersDrafted) + " batters remaining";
-        }
-        if (playersDrafted >=11 && playersDrafted <15){
-            TextView textView = (TextView) findViewById(R.id.prompt);
-            String message = "Please select a pitcher, you have "+ (5-playersDrafted) + " batters remaining";
-        }
-
+        updateViews(); //updates the table to show players availible and the textview to show how many players left.
 
 
         playersDrafted++;
