@@ -204,16 +204,18 @@ public class MainActivity extends AppCompatActivity {
             dialog.show();
             sendScores(teamPhoneArr.get(0), ("You beat "+teamNameArr.get(1)+" by 3 points!"));
 
-            sendScores(teamPhoneArr.get(1), ("You beat "+teamNameArr.get(2)+" by 3 points!"));
+            sendScores(teamPhoneArr.get(1), ("You Lost to "+teamNameArr.get(0)+" by 3 points!"));
 
             team1Wins++;
+            /*
             sendScores(teamPhoneArr.get(2), ("You beat "+teamNameArr.get(3)+" by 7 points!"));
-            sendScores(teamPhoneArr.get(3), ("You beat "+teamNameArr.get(4)+" by 7 points!"));
+            sendScores(teamPhoneArr.get(3), ("You lost to "+teamNameArr.get(2)+" by 7 points!"));
             team3Wins++;
             sendScores(teamPhoneArr.get(4), ("You beat "+teamNameArr.get(5)+" by 2 points!"));
-            sendScores(teamPhoneArr.get(5), ("You beat "+teamNameArr.get(1)+" by 2 points!"));
+            sendScores(teamPhoneArr.get(5), ("You lost to "+teamNameArr.get(4)+" by 2 points!"));
             team5Wins++;
             weekCount++;
+            */
 
             return;
 
