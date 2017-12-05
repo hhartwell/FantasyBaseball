@@ -27,14 +27,14 @@ public class DraftTeam extends AppCompatActivity {
         if (playersDrafted <=10){
             TextView textView = (TextView) findViewById(R.id.prompt);
             String message = "Please select a batter, you have "+ (10-playersDrafted) + " batters remaining";
-            //query batters and update tableview
+            //SQL query batters and update tableview
 
 
         }
         if (playersDrafted >=11 && playersDrafted <15){
             TextView textView = (TextView) findViewById(R.id.prompt);
             String message = "Please select a pitcher, you have "+ (5-playersDrafted) + " batters remaining";
-            //query pitchers and update tableview
+            //SQL query pitchers and update tableview
         }
 
     }
@@ -89,6 +89,8 @@ public class DraftTeam extends AppCompatActivity {
             teamCreated=true;
 
             //SQL INSERT LOGIC GOES BELOW to insert team in to teams table
+
+
         }
         updateViews(); //updates the table to show players availible and the textview to show how many players left.
 
