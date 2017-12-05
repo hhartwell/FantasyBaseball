@@ -60,7 +60,7 @@ public class DraftTeam extends AppCompatActivity {
         }
         if (playersDrafted >=10 && playersDrafted <15){
             TextView header=(TextView) findViewById(R.id.header);
-            header.setText("Player                                  PID           WINS         ERA         WHIP");
+            header.setText("Player                           PID           WINS         ERA         WHIP");
             TextView textView = (TextView) findViewById(R.id.prompt);
             String message = "Please select a pitcher, you have "+ (15 - playersDrafted) + " pitchers remaining";
             textView.setText(message);
