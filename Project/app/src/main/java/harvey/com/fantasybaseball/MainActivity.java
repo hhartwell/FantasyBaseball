@@ -38,6 +38,14 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends AppCompatActivity {
     // still need to create the listView
+    int weekCount =0;
+    int team1Wins = 0;
+    int team2Wins = 0;
+    int team3Wins = 0;
+    int team4Wins = 0;
+    int team5Wins = 0;
+    int team6Wins = 0;
+
 
     ListView listView;
     ExcelToSQLite databaseHelper;
@@ -77,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         else if (menuId == R.id.sendScoreAction){
             // sends the winning team's score to all players
             try {
-                sendScores();
+                sendScores("9497421750","TESTMESSAGE");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -113,14 +121,88 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void simulateWeek() throws IOException{
+
+        //Will pull these numbers from the DB
+
+
+        //Becuase there is no live data currently and pheasibility issues, we are going to script the season
+
+        String team1Name = "Bob";
+        String team2Name = "jon";
+        String team3Name = "rob";
+        String team4Name = "dan";
+        String team5Name = "ron";
+        String team6Name = "zak";
+
+        String team1Phone="9497421750";
+        String team2Phone="9497421750";
+        String team3Phone="9497421750";
+        String team4Phone="9497421750";
+        String team5Phone="9497421750";
+        String team6Phone="9497421750";
+
+        if (weekCount==0){
+            sendScores(team1Phone, ("You beat"+team2Name+"by 3 points!"));
+            sendScores(team2Phone, ("You Lost to "+team1Name+"by 3 points!"));
+            team1Wins++;
+            sendScores(team3Phone, ("You beat"+team4Name+"by 7 points!"));
+            sendScores(team4Phone, ("You Lost to "+team3Name+"by 7 points!"));
+            team3Wins++;
+            sendScores(team5Phone, ("You beat"+team2Name+"by 2 points!"));
+            sendScores(team6Phone, ("You Lost to "+team1Name+"by 2 points!"));
+            team5Wins++;
+            weekCount++;
+
+        }
+        if (weekCount==1){
+            sendScores(team1Phone, ("You beat"+team3Name+"by 4 points!"));
+            sendScores(team3Phone, ("You Lost to "+team1Name+"by 4 points!"));
+            team1Wins++;
+            sendScores(team2Phone, ("You beat"+team5Name+"by 1 point!"));
+            sendScores(team5Phone, ("You Lost to "+team2Name+"by 1 point!"));
+            team2Wins++;
+            sendScores(team4Phone, ("You beat"+team6Name+"by 1 point!"));
+            sendScores(team6Phone, ("You Lost to "+team4Name+"by 1 point!"));
+            team4Wins++;
+            weekCount++;
+
+        }
+        if (weekCount==2){
+            sendScores(team1Phone, ("You beat"+team6Name+"by 2 points!"));
+            sendScores(team6Phone, ("You Lost to "+team1Name+"by 2 points!"));
+            team1Wins++;
+            sendScores(team2Phone, ("You beat"+team2Name+"by 11points!"));
+            sendScores(team5Phone, ("You Lost to "+team5Name+"by 11 points!"));
+            team2Wins++;
+            sendScores(team3Phone, ("You beat"+team3Name+"by 3 points!"));
+            sendScores(team4Phone, ("You Lost to "+team4Name+"by 3 points!"));
+            team4Wins++;
+            weekCount++;
+
+        }
+        if (weekCount ==3){
+            sendScores(team1Phone, "The winner is " + team1Name+"! The season has ended");
+            sendScores(team2Phone, "The winner is " + team1Name+"! The season has ended");
+            sendScores(team3Phone, "The winner is " + team1Name+"! The season has ended");
+            sendScores(team4Phone, "The winner is " + team1Name+"! The season has ended");
+            sendScores(team5Phone, "The winner is " + team1Name+"! The season has ended");
+            sendScores(team6Phone, "The winner is " + team1Name+"! The season has ended");
+        }
+
+
+    }
+
+
     /**
-     * sends out the winning team via text
+     * sends out the winning team via text via Message360 REST API
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void sendScores() throws IOException {
+    private void sendScores(String sNumber, String sBody) throws IOException {
         URL url = new URL("https://api.message360.com/api/v3/sms/sendsms.xml");
         String userPassword = "2f50b196-af9c-dcc7-1228-e08b62128704:51a9ae603a079aea1eb394661770ff92"; //Message360 Account SID and Password
-
 
         HttpsURLConnection httpCon = (HttpsURLConnection) url.openConnection();
         httpCon.setDoInput(true);
@@ -132,9 +214,9 @@ public class MainActivity extends AppCompatActivity {
         OutputStream os = httpCon.getOutputStream();
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
 
-        String to="5099190888";
-        String body = "SCORE REPORT TEST";
-        String from = "5092609560";
+        String to=sNumber;
+        String body = sBody;
+        String from = "5092609560"; //Number owned in Message360
 
         String nTo="&to=" +to;
         String nFrom  = "&from=+1"+from; //number being sent from, Must be owned in Message360 account. adds required +1 before from
@@ -149,7 +231,6 @@ public class MainActivity extends AppCompatActivity {
         os.close();
         httpCon.getResponseCode();
         httpCon.connect();
-
         httpCon.disconnect();
 
     }
