@@ -65,6 +65,8 @@ public class DraftTeam extends AppCompatActivity {
             String message = "Please select a pitcher, you have "+ (15 - playersDrafted) + " pitchers remaining";
             textView.setText(message);
             //SQL query pitchers and update tableview
+            EditText pid = (EditText) findViewById(R.id.playerID);
+            pid.setText("");
 
             SQLiteDatabase db = databaseHelper.getWritableDatabase();
             Cursor cursor = db.rawQuery(databaseHelper.getQueryPitchers(), null);
