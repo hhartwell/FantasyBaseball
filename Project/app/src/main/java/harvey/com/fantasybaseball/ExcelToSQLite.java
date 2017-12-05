@@ -34,7 +34,10 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
     static final String USER_ID = "_id";
     static final String USER_NAME = "user_name";
 
+    // player table and attr names
+    static final String PHONE_NUMBER = "user_id";
     static final String TABLE_PLAYERS = "players";
+    static final String PID = "pid";
 
     static final String TAG = "EXCEL TO SQLITE";
     private Context context;
@@ -72,7 +75,7 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
                 "team_name TEXT, " +
                 "_id INTEGER, " +
                 "PRIMARY KEY (_id), " +
-                "FOREIGN KEY (_id) REFERENCES players (_id) " +
+                "FOREIGN KEY (_id) REFERENCES players (user_id) " +
                 "ON DELETE CASCADE ON UPDATE NO ACTION" +
                 ");";
         return createTable;
@@ -81,9 +84,9 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
     private String createPlayerTable() {
         String createTable = "";
         createTable += "CREATE TABLE players ( " +
-                "_id INTEGER, " +
+                "user_id INTEGER, " +
                 "player_name TEXT, " +
-                "pid INTEGER, " +
+                "_id INTEGER, " +
                 "ab INTEGER, " +
                 "r INTEGER, " +
                 "h INTEGER, " +
@@ -96,7 +99,7 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
                 "era REAL, " +
                 "bb REAL, " +
                 "whip REAL, " +
-                "PRIMARY KEY (pid));";
+                "PRIMARY KEY (_id));";
         Log.d(TAG, "createPlayer table: " + createTable);
         return createTable;
     }
@@ -231,7 +234,7 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
     // functions to be used in draftTeams activity
 
     /**
-     * returns a query
+     * returns a query string for drafting batters
      * @return
      */
     public String getQueryBatters(){
@@ -240,6 +243,11 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
         query = "SELECT " + selectFields + " From " + TABLE_TEAMS + " WEHRE _id IS NULL AND pitcher = 0;";
         return query;
     }
+
+    /**
+     * returns a query string for drafting picthers
+     * @return
+     */
     public String getQueryPitchers(){
         String query = "";
         String selectFields = "player_name, pid, w, era, whip";
@@ -247,4 +255,16 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
         return query;
     }
 
+    /**
+     * called when a player is drafted and assigned a team
+     * @param pid player id
+     * @param num phone number
+     * @return
+     */
+    public String getPlayerDraftedQuery(int pid, Long num){
+        String query = "";
+        query += "UPDATE " + TABLE_TEAMS + " SET "+ PHONE_NUMBER + " = " + num +" WHERE pid = " +pid + ";";
+        Log.d(TAG, "update: " + query);
+        return query;
+    }
 }
