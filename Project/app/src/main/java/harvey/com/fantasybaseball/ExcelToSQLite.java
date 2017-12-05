@@ -290,4 +290,11 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
         query += " ORDER BY "+ orderBy +" DESC ;";
         return query;
     }
+    public String getTeamNameFromPhoneNumber(Long phone_number){
+        String query = "";
+        query += "SELECT " + TEAM_NAME;
+        query += " FROM "+ TABLE_TEAMS;
+        query += "WHERE _id = " + phone_number + ";";
+        return query;
+    }
 }
