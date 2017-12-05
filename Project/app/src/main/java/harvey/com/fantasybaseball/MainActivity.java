@@ -2,6 +2,7 @@ package harvey.com.fantasybaseball;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     int team4Wins = 0;
     int team5Wins = 0;
     int team6Wins = 0;
-    boolean teamExists=false;
+    boolean playersPopulated=false;
 
 
     ListView listView;
@@ -61,13 +62,40 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
+        SharedPreferences sharedPreferences= getSharedPreferences("playerPop", 0);
+        playersPopulated= sharedPreferences.getBoolean("playersPopulated", false);
         // create database
         databaseHelper = new ExcelToSQLite(this);
+
+        try {
+            if (!playersPopulated){
+                databaseHelper.populateTeamsTable();
+                playersPopulated = true;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
 
         //initListView();
         populateTeamsList();
         addListViewItemClickListener();
     }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        SharedPreferences sharedPreferences=getSharedPreferences("playerPop", 0);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.putBoolean("playersPopulated", playersPopulated);
+        editor.commit();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -121,10 +149,10 @@ public class MainActivity extends AppCompatActivity {
                 Cursor cursor = cursorAdapter.getCursor();
 
                 cursor.moveToPosition(position);
-                if(!teamExists) {
+                if(!playersPopulated) {
                     populateTeamsList();
                     addListViewItemClickListener();
-                    teamExists=true;
+                    playersPopulated=true;
                 }
                 Intent i = new Intent(MainActivity.this, Team.class);
                 i.putExtra("phone_number", cursor.getLong(1));

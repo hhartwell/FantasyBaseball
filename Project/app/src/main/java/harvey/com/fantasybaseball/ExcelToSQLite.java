@@ -40,6 +40,7 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
 
     static final String TAG = "EXCEL TO SQLITE";
     private Context context;
+    boolean alreadyPopulated = false;
 
     public ExcelToSQLite(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -50,17 +51,20 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String sqlPlayerTable = createPlayerTable();
         String sqlTeamTable = createTeamsTable();
+        /*
         db.execSQL(dropTable(TABLE_TEAMS));
         db.execSQL(dropTable(TABLE_PLAYERS));
-
+*/
 
         db.execSQL(sqlPlayerTable);
         db.execSQL(sqlTeamTable);
+        /*
         try {
             populateTeamsTable();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
     }
 
     @Override
@@ -125,6 +129,11 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
     }
 
     public void populateTeamsTable() throws IOException {
+        if(alreadyPopulated){
+            Log.d(TAG, "already POPULATED");
+            return;
+        }
+        Log.d(TAG, "INSIDE POPULATE TEAMS TABLE");
         InputStream file = context.getResources().openRawResource(R.raw.player_db);
         BufferedReader br = new BufferedReader(new InputStreamReader(file, "UTF-8"));
 
@@ -148,6 +157,7 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
         }
         db.setTransactionSuccessful();
         db.endTransaction();
+        alreadyPopulated = true;
     }
 
     public List<PlayerObject> getSelectAllPlayersList() {

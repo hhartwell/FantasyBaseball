@@ -21,7 +21,7 @@ public class DraftTeam extends AppCompatActivity {
     int playersDrafted;
     boolean teamCreated;
     ExcelToSQLite databaseHelper;
-    boolean
+    boolean tableMade=false;
 
     // activity used to draft a team
     @Override
@@ -36,6 +36,7 @@ public class DraftTeam extends AppCompatActivity {
 
 
     public void updateViews(){
+
         if (playersDrafted <10){
             Log.d(TAG, "inside first if clause");
             TextView textView = (TextView) findViewById(R.id.prompt);
