@@ -138,12 +138,12 @@ public class MainActivity extends AppCompatActivity {
         //Becuase there is no live data currently and pheasibility issues, we are going to script the season
 
         ArrayList<String> teamNameArr = new ArrayList<String>();
-        ArrayList<String> teamPhoneNumber = new ArrayList<String>();
+        ArrayList<String> teamPhoneArr = new ArrayList<String>();
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(databaseHelper.getTeamNameQuery(), null);
         while (cursor.moveToNext()){
             teamNameArr.add(cursor.getString(0));
-            teamPhoneNumber.add(String.valueOf(cursor.getLong(1)));
+            teamPhoneArr.add(String.valueOf(cursor.getLong(1)));
         }
         String team1Name = "Bob";
         String team2Name = "jon";
@@ -165,16 +165,16 @@ public class MainActivity extends AppCompatActivity {
             dialog.setMessage("Week 1 has been simulated!");
             dialog.setPositiveButton("OK", null);
             dialog.show();
-            sendScores(team1Phone, ("You beat "+team2Name+" by 3 points!"));
+            sendScores(teamPhoneArr.get(0), ("You beat "+teamNameArr.get(1)+" by 3 points!"));
 
-            sendScores(team2Phone, ("You Lost to "+team1Name+" by 3 points!"));
+            sendScores(teamPhoneArr.get(1), ("You beat "+teamNameArr.get(2)+" by 3 points!"));
 
             team1Wins++;
-            sendScores(team3Phone, ("You beat "+team4Name+" by 7 points!"));
-            sendScores(team4Phone, ("You Lost to "+team3Name+" by 7 points!"));
+            sendScores(teamPhoneArr.get(2), ("You beat "+teamNameArr.get(3)+" by 7 points!"));
+            sendScores(teamPhoneArr.get(3), ("You beat "+teamNameArr.get(4)+" by 7 points!"));
             team3Wins++;
-            sendScores(team5Phone, ("You beat "+team2Name+" by 2 points!"));
-            sendScores(team6Phone, ("You Lost to "+team1Name+" by 2 points!"));
+            sendScores(teamPhoneArr.get(4), ("You beat "+teamNameArr.get(5)+" by 2 points!"));
+            sendScores(teamPhoneArr.get(5), ("You beat "+teamNameArr.get(1)+" by 2 points!"));
             team5Wins++;
             weekCount++;
 
