@@ -16,6 +16,7 @@ import android.widget.SimpleCursorAdapter;
 public class Team extends AppCompatActivity {
 // this class will display a user's team
     ExcelToSQLite databaseHelper;
+    Long phoneNumber;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,7 +24,7 @@ public class Team extends AppCompatActivity {
         databaseHelper = new ExcelToSQLite(this);
         ListView listView = (ListView) (findViewById(R.id.roster));
         Intent recievedIntent = getIntent();
-        Long phoneNumber = recievedIntent.getLongExtra("phone_number", 5099190888L);
+        phoneNumber = recievedIntent.getLongExtra("phone_number", 5099190888L);
         //query SQL to populate listView, default sort by name
     }
 
