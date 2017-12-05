@@ -1,35 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+
+
+<LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="harvey.com.fantasybaseball.DraftTeam">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
+    <EditText
+        android:id="@+id/teamName"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Enter a Team Name"
+        android:inputType="textPersonName" />
 
-        <EditText
-            android:id="@+id/teamName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Enter Team Name" />
-
-        <EditText
-            android:id="@+id/phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="phone"
-            android:text="Enter Phone Number" />
+    <EditText
+        android:id="@+id/phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Enter a Phone Number"
+        android:inputType="phone" />
 
         <TextView
             android:id="@+id/prompt"
@@ -85,10 +81,10 @@
                 android:text="WHIP" />
         </LinearLayout>
 
-        <ListView
-            android:id="@+id/listView"
-            android:layout_width="match_parent"
-            android:layout_height="350dp" />
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="260dp" />
 
         <EditText
             android:id="@+id/playerID"
@@ -98,11 +94,12 @@
             android:inputType="number"
             android:text="Enter Player ID (PID) you want to Draft" />
 
-        <Button
-            android:id="@+id/draftPlayer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="DRAFT PLAYER" />
+    <Button
+        android:id="@+id/draftPlayer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="draftPlayerFromTable"
+        android:text="DRAFT PLAYER" />
 
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+

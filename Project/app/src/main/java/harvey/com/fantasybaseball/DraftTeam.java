@@ -3,6 +3,7 @@ package harvey.com.fantasybaseball;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -38,7 +39,7 @@ public class DraftTeam extends AppCompatActivity {
 
     }
 
-    public void draftPlayerFromTable(){ // called when user presses draft team
+    public void draftPlayerFromTable(View view){ // called when user presses draft team
         //update row in table with team ID of player to indicate its drafted
         //update listView
         EditText teamName = (EditText) findViewById(R.id.teamName);
@@ -46,7 +47,7 @@ public class DraftTeam extends AppCompatActivity {
         EditText PID = (EditText) findViewById(R.id.playerID);
 
 
-        if (phoneNumber.getText().toString().toString()==null){
+        if (phoneNumber.getText().toString()==""){
             //DIALOG "ENTER A PHONE NUMBER"
 
             AlertDialog.Builder dialog=new AlertDialog.Builder(DraftTeam.this);
@@ -57,7 +58,7 @@ public class DraftTeam extends AppCompatActivity {
 
             return;
         }
-        if (teamName.getText().toString()==null){
+        if (teamName.getText().toString()==""){
             //Dialog "Enter a team name"
             AlertDialog.Builder dialog=new AlertDialog.Builder(DraftTeam.this);
             dialog.setTitle("Enter Team Name");
