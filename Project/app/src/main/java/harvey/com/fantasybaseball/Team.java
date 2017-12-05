@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
@@ -15,6 +16,7 @@ import android.widget.SimpleCursorAdapter;
 
 public class Team extends AppCompatActivity {
 // this class will display a user's team
+    static final String TAG = "TEAM";
     ExcelToSQLite databaseHelper;
     Long phoneNumber;
     @Override
@@ -26,10 +28,7 @@ public class Team extends AppCompatActivity {
         Intent recievedIntent = getIntent();
         phoneNumber = recievedIntent.getLongExtra("phone_number", 5099190888L);
         //query SQL to populate listView, default sort by name
-    }
-
-    public void populateListView(){
-
+        Log.d(TAG, String.valueOf(phoneNumber));
     }
 
     public void sortByBA(View view){
