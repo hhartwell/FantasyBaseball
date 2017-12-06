@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (weekCount==0){
-            Toast.makeText(this, "Winning Scores sent", Toast.LENGTH_SHORT).show();
+
             sendScores(teamPhoneArr.get(0), ("You beat "+teamNameArr.get(1)+" by 3 points!"));
 
             sendScores(teamPhoneArr.get(1), ("You Lost to "+teamNameArr.get(0)+" by 3 points!"));
@@ -201,11 +201,13 @@ public class MainActivity extends AppCompatActivity {
             team5Wins++;
             weekCount++;
             */
-
+            Toast.makeText(this, "Winning Scores sent", Toast.LENGTH_SHORT).show();
+            weekCount++;
             return;
 
         }
         if (weekCount==1){
+            weekCount++;
             Toast.makeText(this, "Winning Scores sent", Toast.LENGTH_SHORT).show();
 
             sendScores(teamPhoneArr.get(0), ("You beat "+teamNameArr.get(3)+" by 3 points!"));
@@ -270,7 +272,7 @@ public class MainActivity extends AppCompatActivity {
      * sends out the winning team via text via Message360 REST API
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void sendScores(String sNumber, String sBody) throws IOException {
+    private int sendScores(String sNumber, String sBody) throws IOException {
 
 
         /**
@@ -322,6 +324,7 @@ public class MainActivity extends AppCompatActivity {
         httpCon.connect();
         httpCon.disconnect();
         Log.d("MESSAGE SENT", (to +" content:   "+body));
+        return 0;
 
 
     }

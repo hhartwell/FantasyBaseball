@@ -89,8 +89,8 @@ public class DraftTeam extends AppCompatActivity {
     public void draftPlayerFromTable(View view){
         // called when user presses draft team
         //update row in table with team ID of player to indicate its drafted
-        
-        updateViews();
+
+
         //update listView
         EditText teamName = (EditText) findViewById(R.id.teamName);
         EditText phoneNumber = (EditText) findViewById(R.id.phone);
@@ -123,7 +123,7 @@ public class DraftTeam extends AppCompatActivity {
 
             AlertDialog.Builder dialog=new AlertDialog.Builder(DraftTeam.this);
             dialog.setTitle("Enter Team Name");
-            dialog.setMessage("Please enter a Team Name to draft a player");
+            dialog.setMessage("Please enter a PID to draft a player");
             dialog.setPositiveButton("OK", null);
             dialog.show();
             return;
