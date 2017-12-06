@@ -173,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Becuase there is no live data currently and pheasibility issues, we are going to script the season
+        // for demonstration purposes.
 
         ArrayList<String> teamNameArr = new ArrayList<String>();
         ArrayList<String> teamPhoneArr = new ArrayList<String>();
@@ -182,19 +183,7 @@ public class MainActivity extends AppCompatActivity {
             teamNameArr.add(cursor.getString(0));
             teamPhoneArr.add(String.valueOf(cursor.getLong(1)));
         }
-        String team1Name = "Bob";
-        String team2Name = "jon";
-        String team3Name = "rob";
-        String team4Name = "dan";
-        String team5Name = "ron";
-        String team6Name = "zak";
 
-        String team1Phone="9497421750";
-        String team2Phone="9497421750";
-        String team3Phone="9497421750";
-        String team4Phone="9497421750";
-        String team5Phone="9497421750";
-        String team6Phone="9497421750";
 
         if (weekCount==0){
             Toast.makeText(this, "Winning Scores sent", Toast.LENGTH_SHORT).show();
@@ -218,17 +207,23 @@ public class MainActivity extends AppCompatActivity {
         }
         if (weekCount==1){
             Toast.makeText(this, "Winning Scores sent", Toast.LENGTH_SHORT).show();
+
             sendScores(teamPhoneArr.get(0), ("You beat "+teamNameArr.get(3)+" by 3 points!"));
 
             sendScores(teamPhoneArr.get(3), ("You Lost to "+teamNameArr.get(0)+" by 3 points!"));
-
-            team1Wins++;
-
             sendScores(teamPhoneArr.get(1), ("You beat "+teamNameArr.get(2)+" by 7 points!"));
             sendScores(teamPhoneArr.get(2), ("You lost to "+teamNameArr.get(1)+" by 7 points!"));
 
+            team1Wins++;
+
 
             team2Wins++;
+
+            sendScores(teamPhoneArr.get(0), "The winner is " + teamNameArr.get(0)+" ! The season has ended");
+            sendScores(teamPhoneArr.get(1), "The winner is " + teamNameArr.get(0)+" ! The season has ended");
+            sendScores(teamPhoneArr.get(2), "The winner is " + teamNameArr.get(0)+" ! The season has ended");
+            sendScores(teamPhoneArr.get(3), "The winner is " + teamNameArr.get(0)+" ! The season has ended");
+
             /*
             team2Wins++;
             sendScores(team4Phone, ("You beat "+team6Name+" by 1 point!"));
@@ -281,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
         /**
          * Fun Fact about carriers:
          *
-         * When using a long code (normal 10 digit number), the carriers do not like when you send more
+         * When using a longcode (normal 10 digit phone number), the carriers do not like when you send more
          * than one SMS per second, otherwise, the sending number may be blocked.
          *
          * I have put in Thread.sleep with a generous time to buffer the time between messages being sent so as to prevent numbers
@@ -289,7 +284,7 @@ public class MainActivity extends AppCompatActivity {
          */
 
         try {
-            Thread.sleep(3500);
+            Thread.sleep(2500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
