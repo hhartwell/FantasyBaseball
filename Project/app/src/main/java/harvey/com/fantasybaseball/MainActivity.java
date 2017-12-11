@@ -329,6 +329,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    public void showStats(View view){
+        Intent i = new Intent(MainActivity.this, LeagueStats.class);
+        startActivity(i);
+    }
     /**
      * function used for testing purposes only.
      * creates a super simple list as a place holder
