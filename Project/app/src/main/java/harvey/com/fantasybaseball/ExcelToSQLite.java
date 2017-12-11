@@ -428,22 +428,40 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
     public String getBestBattingAvg(){
         String query = "SELECT p.name, b.ba, b.h, b.hr " +
                 "FROM "+TABLE_PLAYERS + " p, " + TABLE_BATTERS + " b " +
-                "WHERE p._id = b._id AND p.id NOT IN (" +
-                                            "SELECT b._id " +
-                                            "FROM " + TABLE_BATTERS + " b " +
-                                            "WHERE b.h < 50);";
-        return query;
-    }
-    public String getAllTeamsBA(){
-        String query = "";
+                "WHERE p._id = b._id AND b._id NOT IN (" +
+                    "SELECT b._id " +
+                    "FROM " + TABLE_BATTERS + " b " +
+                    "WHERE b.h < 50)" +
+                "AND p.user_id IS NULL;";
         return query;
     }
     public String getBestBAOfTeams(){
-        String query = "";
+        String query =
+                "SELECT t.team_name " +
+                "FROM " + TABLE_TEAMS + " t, " + TABLE_BATTERS + " b, " + TABLE_PITCHERS + " p " +
+                "WHERE p.user_id = t._id AND b._id = p._id " +
+                "GROUP BY t.team_name " +
+                "HAVING AVG(b.ba) >= ALL IN (" +
+                        "SELECT AVG(b.ba) " +
+                        "FROM players p, batters b, teams t " +
+                        "WHERE t._id = p.user_id AND p._id = b._id " +
+                        "GROUP BY t.team_name);";
+
         return query;
     }
+    /**
+     * find best pitcher era from all pitchers with more than 10 wins
+     * @return
+     */
     public String getBestERAofPlayers(){
-        String query = "";
+        String query = "SELECT p.name, pitcher.w, pitcher.era, pitcher.whip " +
+                "FROM "+TABLE_PLAYERS + " p, " + TABLE_PITCHERS + " pitchers " +
+                "JOIN " + TABLE_PLAYERS + " ON p._id = pitchers._id " +
+                "WHERE _id NOT IN (" +
+                "SELECT pitchers._id " +
+                "FROM " + TABLE_PITCHERS + " pitchers " +
+                "WHERE pitchers.w > 10)" +
+                "AND user_id IS NULL;";
         return query;
     }
 }
