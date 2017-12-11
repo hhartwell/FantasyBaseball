@@ -25,7 +25,6 @@
         android:id="@+id/leagueStats"
         android:layout_width="358dp"
         android:layout_height="wrap_content"
-        android:onClick="showStats"
         android:text="League-Stats" />
 
 </GridLayout>
