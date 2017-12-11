@@ -34,18 +34,18 @@ public class Team extends AppCompatActivity {
 
         //Select players ordered by their batting average
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery(databaseHelper.getTeamByNumberQueryAndOrderBy(phoneNumber, "ba"), null);
+        Cursor cursor = db.rawQuery(databaseHelper.getNewTeamByNumber(phoneNumber), null);
         // need a cursor adapter
         CursorAdapter cursorAdapter = new SimpleCursorAdapter(
                 this,
-                R.layout.simple_list_item_5,
+                R.layout.simple_list_item_4,
                 cursor,
-                new String[]{"player_name", "_id",  "ba", "h", "hr"},
-                new int[] {R.id.player_name_list, R.id.player_id_list, R.id.player_first, R.id.player_second, R.id.player_third},
+                new String[]{"player_name", "_id",  "ba", "era"},
+                new int[] {R.id.player_name_list, R.id.player_id_list, R.id.player_first, R.id.player_second},
                 0);
         listView.setAdapter(cursorAdapter);
     }
-
+/*
     public void sortByBA(View view){
         TextView header=(TextView) findViewById(R.id.stats);
         header.setText("Player                           PID           HITS         AVG         HR");
@@ -149,6 +149,7 @@ public class Team extends AppCompatActivity {
                 0);
         listView.setAdapter(cursorAdapter);
     }
+    */
 }
 
 

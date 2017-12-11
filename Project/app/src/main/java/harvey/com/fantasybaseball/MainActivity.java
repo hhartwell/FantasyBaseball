@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             if (!playersPopulated){
-                databaseHelper.populateTeamsTable();
+                databaseHelper.populateNewTeamsTable();
                 playersPopulated = true;
             }
         } catch (IOException e) {

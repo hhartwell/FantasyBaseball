@@ -47,7 +47,7 @@ public class DraftTeam extends AppCompatActivity {
 
             //SQL query batters and update tableview
             SQLiteDatabase db = databaseHelper.getWritableDatabase();
-            Cursor cursor = db.rawQuery(databaseHelper.getQueryBatters(), null);
+            Cursor cursor = db.rawQuery(databaseHelper.getBestBattingAvg(), null);
             Log.d(TAG, databaseHelper.getSelectAllPlayersList().toString());
             // need a cursor adapter
             CursorAdapter cursorAdapter = new SimpleCursorAdapter(
@@ -71,7 +71,7 @@ public class DraftTeam extends AppCompatActivity {
             pid.setText("");
 
             SQLiteDatabase db = databaseHelper.getWritableDatabase();
-            Cursor cursor = db.rawQuery(databaseHelper.getQueryPitchers(), null);
+            Cursor cursor = db.rawQuery(databaseHelper.getBestERAofPlayers(), null);
             // need a cursor adapter
             CursorAdapter cursorAdapter = new SimpleCursorAdapter(
                     this,
@@ -172,6 +172,8 @@ public class DraftTeam extends AppCompatActivity {
         }
 
     }
+    /*
+***TO BE DELETED***
     public void sortByBA(View view){
         ListView listView = (ListView) (findViewById(R.id.listView));
         //Select players ordered by their batting average
@@ -263,4 +265,5 @@ public class DraftTeam extends AppCompatActivity {
                 0);
         listView.setAdapter(cursorAdapter);
     }
+    */
 }

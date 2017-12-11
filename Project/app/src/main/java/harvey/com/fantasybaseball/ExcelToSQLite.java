@@ -406,6 +406,14 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
                 " FROM " + TABLE_TEAMS + ";";
         return query;
     }
+
+
+    /**
+     * depricated
+     * @param phone_number
+     * @param orderBy
+     * @return
+     */
     public String getTeamByNumberQueryAndOrderBy(Long phone_number, String orderBy){
         String query = "";
         query += "SELECT * FROM " + TABLE_PLAYERS;
@@ -413,6 +421,15 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
         query += " ORDER BY "+ orderBy +" DESC ;";
         return query;
     }
+    public String getNewTeamByNumber(Long phone_number){
+        String query = "SELECT player_name, b.ba, p.era FROM " + TABLE_PLAYERS +
+                "FROM " + TABLE_PLAYERS + " p, " + TABLE_BATTERS + " b, " + TABLE_PITCHERS + " pitchers " +
+                "WEHRE p._id = b._id, AND p._id = pitchers._id;";
+        return query;
+    }
+
+
+
     public String getTeamNameFromPhoneNumber(Long phone_number){
         String query = "";
         query += "SELECT " + TEAM_NAME;
@@ -426,7 +443,7 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
      * @return
      */
     public String getBestBattingAvg(){
-        String query = "SELECT p.name, b.ba, b.h, b.hr " +
+        String query = "SELECT p.name, p._id, b.ba, b.h, b.hr " +
                 "FROM "+TABLE_PLAYERS + " p, " + TABLE_BATTERS + " b " +
                 "WHERE p._id = b._id AND b._id NOT IN (" +
                     "SELECT b._id " +
@@ -454,7 +471,7 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
      * @return
      */
     public String getBestERAofPlayers(){
-        String query = "SELECT p.name, pitcher.w, pitcher.era, pitcher.whip " +
+        String query = "SELECT p.name, p._id, pitcher.w, pitcher.era, pitcher.whip " +
                 "FROM "+TABLE_PLAYERS + " p, " + TABLE_PITCHERS + " pitchers " +
                 "JOIN " + TABLE_PLAYERS + " ON p._id = pitchers._id " +
                 "WHERE _id NOT IN (" +
