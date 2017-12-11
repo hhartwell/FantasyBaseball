@@ -38,6 +38,21 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
     static final String TABLE_PLAYERS = "players";
     static final String PID = "pid";
 
+    // batter table and attr names
+    static final String TABLE_BATTERS = "batters";
+    static final String _ID = "_id";
+    static final String BA = "ba";
+    static final String H = "h";
+    static final String HR = "hr";
+
+    //pitcher table and attr names
+    static final String TABLE_PITCHERS = "pitchers";
+    static final String ID = "_id";
+    static final String W = "w";
+    static final String ERA = "era";
+    static final String WHIP = "whip";
+
+
     static final String TAG = "EXCEL TO SQLITE";
     private Context context;
     boolean alreadyPopulated = false;
@@ -49,22 +64,17 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sqlPlayerTable = createPlayerTable();
+
+        String sqlPlayerTable = createNewPlayerTable();
+        String sqlBatterTable = createBatterStatsTable();
+        String sqlPitcherTable = createPitcherStatsTable();
         String sqlTeamTable = createTeamsTable();
-        /*
-        db.execSQL(dropTable(TABLE_TEAMS));
-        db.execSQL(dropTable(TABLE_PLAYERS));
-*/
 
         db.execSQL(sqlPlayerTable);
+        db.execSQL(sqlBatterTable);
+        db.execSQL(sqlPitcherTable);
         db.execSQL(sqlTeamTable);
-        /*
-        try {
-            populateTeamsTable();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        */
+
     }
 
     @Override
@@ -90,6 +100,13 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
         return createTable;
     }
 
+    /**
+     * old table that only created one players table. all instances of this function should be gone by turn in
+     *
+     * ** TO BE DELETED LATER **
+     *
+     * @return
+     */
     private String createPlayerTable() {
         String createTable = "";
         createTable += "CREATE TABLE IF NOT EXISTS players ( " +
@@ -113,6 +130,40 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
         return createTable;
     }
 
+    private String createNewPlayerTable(){
+        String query = "CREATE TABLE IF NOT EXISTS players (" +
+                "user_id Integer, " + //when drafted the userID will have the team owners phone #
+                "player_name TEXT," +
+                "_id INTEGER," + //playerID
+                "PRIMARY KEY (_id));";
+        return query;
+    }
+    private String createBatterStatsTable() {
+        String query = "CREATE TABLE IF NOT EXISTS players ( ";
+        query += "" +
+                "_id INTEGER, " +
+                "ba REAL, " +
+                "h REAL " +
+                "hr REAL, " +
+                "PRIMARY KEY (_id)," +
+                "FOREIGN KEY (_id) REFERENCES players (_id)" +
+                ");";
+        return query;
+    }
+
+    private String createPitcherStatsTable(){
+        String query = "CREATE TABLE IF NOT EXISTS players ( ";
+        query += "" +
+                "_id INTEGER, " +
+                "w REAL, " +
+                "era REAL " +
+                "whip REAL, " +
+                "PRIMARY KEY (_id)," +
+                "FOREIGN KEY (_id) REFERENCES players (_id)" +
+                ");";
+        return query;
+    }
+
     /**
      * this function is meant to be used as a parameter to a preparedStatment where there
      * are 3 argments
@@ -127,6 +178,7 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
         querey += "INSERT INTO " + TABLE_TEAMS + " (team_name, _id) VALUES(?, ?);";
         return querey;
     }
+
 
     public void populateTeamsTable() throws IOException {
         if(alreadyPopulated){
@@ -154,6 +206,67 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
             sb.append("'" + str[str.length - 1] + "'");
             sb.append(closing);
             db.execSQL(sb.toString());
+        }
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        alreadyPopulated = true;
+    }
+
+    /**
+     * new populate teams table that populates a players batters and pitchers table
+     * @throws IOException
+     */
+    public void populateNewTeamsTable()throws IOException{
+        // index 9 is pitcher
+        Log.d(TAG, "INSIDE POPULATE TEAMS TABLE");
+        InputStream file = context.getResources().openRawResource(R.raw.player_db);
+        BufferedReader br = new BufferedReader(new InputStreamReader(file, "UTF-8"));
+
+        String line = "";
+        String playerColumns = "player_name, pitcher";
+        String playerHeader = "INSERT INTO " + TABLE_PLAYERS + " (" + playerColumns + ") VALUES (";
+        String closing = ");";
+
+        String batterColumns = "_id, ba, h, hr";
+        String batterHeader = "INSERT INTO " + TABLE_BATTERS + " (" + batterColumns + ") VALUES (";
+
+        String pitcherColumns = "_id, w, era, whip";
+        String pitcherHeader = "INSERT INTO " + TABLE_PITCHERS + " (" + pitcherColumns + ") VALUES (";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.beginTransaction();
+
+        while ((line = br.readLine()) != null) {
+            String[] str = line.split(",");
+            StringBuilder players = new StringBuilder(playerHeader);
+            StringBuilder batters = new StringBuilder(batterHeader);
+            StringBuilder pitchers = new StringBuilder(pitcherHeader);
+
+            // players table only gets name and pitcher flag
+            players.append("'" + str[0] + "',");
+            players.append("'" + str[9] + "',");
+
+            // id for all
+            players.append("'" + str[1] + "',");
+            batters.append("'" + str[1] + "',");
+            pitchers.append("'" + str[1] + "',");
+
+            // for batters
+            batters.append("'" + str[7] + "',");
+            batters.append("'" + str[4] + "',");
+            batters.append("'" + str[5] + "',");
+
+            // for pitchers
+            pitchers.append("'" + str[10] + "',");
+            pitchers.append("'" + str[11] + "',");
+            pitchers.append("'" + str[13] + "',");
+
+            players.append(closing);
+            batters.append(closing);
+            pitchers.append(closing);
+            db.execSQL(players.toString());
+            db.execSQL(batters.toString());
+            db.execSQL(pitchers.toString());
         }
         db.setTransactionSuccessful();
         db.endTransaction();
@@ -305,6 +418,32 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
         query += "SELECT " + TEAM_NAME;
         query += " FROM "+ TABLE_TEAMS;
         query += "WHERE _id = " + phone_number + ";";
+        return query;
+    }
+
+    /**
+     * find best batting avg from all players where they have had more than 50 hits
+     * @return
+     */
+    public String getBestBattingAvg(){
+        String query = "SELECT p.name, b.ba, b.h, b.hr " +
+                "FROM "+TABLE_PLAYERS + " p, " + TABLE_BATTERS + " b " +
+                "WHERE p._id = b._id AND p.id NOT IN (" +
+                                            "SELECT b._id " +
+                                            "FROM " + TABLE_BATTERS + " b " +
+                                            "WHERE b.h < 50);";
+        return query;
+    }
+    public String getAllTeamsBA(){
+        String query = "";
+        return query;
+    }
+    public String getBestBAOfTeams(){
+        String query = "";
+        return query;
+    }
+    public String getBestERAofPlayers(){
+        String query = "";
         return query;
     }
 }
