@@ -139,11 +139,11 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
         return query;
     }
     private String createBatterStatsTable() {
-        String query = "CREATE TABLE IF NOT EXISTS players ( ";
+        String query = "CREATE TABLE IF NOT EXISTS batters ( ";
         query += "" +
                 "_id INTEGER, " +
                 "ba REAL, " +
-                "h REAL " +
+                "h REAL, " +
                 "hr REAL, " +
                 "PRIMARY KEY (_id)," +
                 "FOREIGN KEY (_id) REFERENCES players (_id)" +
@@ -152,11 +152,11 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
     }
 
     private String createPitcherStatsTable(){
-        String query = "CREATE TABLE IF NOT EXISTS players ( ";
+        String query = "CREATE TABLE IF NOT EXISTS pitchers ( ";
         query += "" +
                 "_id INTEGER, " +
                 "w REAL, " +
-                "era REAL " +
+                "era REAL, " +
                 "whip REAL, " +
                 "PRIMARY KEY (_id)," +
                 "FOREIGN KEY (_id) REFERENCES players (_id)" +
@@ -223,7 +223,7 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
         BufferedReader br = new BufferedReader(new InputStreamReader(file, "UTF-8"));
 
         String line = "";
-        String playerColumns = "player_name, pitcher";
+        String playerColumns = "player_name, _id";
         String playerHeader = "INSERT INTO " + TABLE_PLAYERS + " (" + playerColumns + ") VALUES (";
         String closing = ");";
 
@@ -242,24 +242,23 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
             StringBuilder batters = new StringBuilder(batterHeader);
             StringBuilder pitchers = new StringBuilder(pitcherHeader);
 
-            // players table only gets name and pitcher flag
+            // players table only gets name
             players.append("'" + str[0] + "',");
-            players.append("'" + str[9] + "',");
 
             // id for all
-            players.append("'" + str[1] + "',");
+            players.append("'" + str[1] + "'");
             batters.append("'" + str[1] + "',");
             pitchers.append("'" + str[1] + "',");
 
             // for batters
             batters.append("'" + str[7] + "',");
             batters.append("'" + str[4] + "',");
-            batters.append("'" + str[5] + "',");
+            batters.append("'" + str[5] + "'");
 
             // for pitchers
             pitchers.append("'" + str[10] + "',");
             pitchers.append("'" + str[11] + "',");
-            pitchers.append("'" + str[13] + "',");
+            pitchers.append("'" + str[12] + "'");
 
             players.append(closing);
             batters.append(closing);
@@ -422,9 +421,9 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
         return query;
     }
     public String getNewTeamByNumber(Long phone_number){
-        String query = "SELECT player_name, b.ba, p.era FROM " + TABLE_PLAYERS +
-                "FROM " + TABLE_PLAYERS + " p, " + TABLE_BATTERS + " b, " + TABLE_PITCHERS + " pitchers " +
-                "WEHRE p._id = b._id, AND p._id = pitchers._id;";
+        String query = "SELECT p.player_name, p._id, b.ba, pit.era " +
+                "FROM " + TABLE_PLAYERS + " p, " + TABLE_BATTERS + " b, " + TABLE_PITCHERS + " pit " +
+                "WHERE p._id = b._id AND p._id = pit._id AND p.user_id = "+ phone_number +";";
         return query;
     }
 
@@ -443,12 +442,12 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
      * @return
      */
     public String getBestBattingAvg(){
-        String query = "SELECT p.name, p._id, b.ba, b.h, b.hr " +
+        String query = "SELECT p.player_name, p._id, b.ba, b.h, b.hr " +
                 "FROM "+TABLE_PLAYERS + " p, " + TABLE_BATTERS + " b " +
                 "WHERE p._id = b._id AND b._id NOT IN (" +
                     "SELECT b._id " +
                     "FROM " + TABLE_BATTERS + " b " +
-                    "WHERE b.h < 50)" +
+                    "WHERE b.h < 50) " +
                 "AND p.user_id IS NULL;";
         return query;
     }
@@ -471,14 +470,14 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
      * @return
      */
     public String getBestERAofPlayers(){
-        String query = "SELECT p.name, p._id, pitcher.w, pitcher.era, pitcher.whip " +
-                "FROM "+TABLE_PLAYERS + " p, " + TABLE_PITCHERS + " pitchers " +
-                "JOIN " + TABLE_PLAYERS + " ON p._id = pitchers._id " +
-                "WHERE _id NOT IN (" +
-                "SELECT pitchers._id " +
-                "FROM " + TABLE_PITCHERS + " pitchers " +
-                "WHERE pitchers.w > 10)" +
-                "AND user_id IS NULL;";
+        String query = "SELECT p.player_name, p._id, pitcher.w, pitcher.era, pitcher.whip " +
+                "FROM "+TABLE_PLAYERS + " p, " + TABLE_PITCHERS + " pitcher " +
+                //"INNER JOIN " + TABLE_PLAYERS + " ON p._id = pitcher._id " +
+                "WHERE p._id = pitcher._id AND p._id NOT IN (" +
+                "SELECT pit._id " +
+                "FROM " + TABLE_PITCHERS + " pit " +
+                "WHERE pit.w < 5) " +
+                "AND p.user_id IS NULL;";
         return query;
     }
 }
