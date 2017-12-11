@@ -24,8 +24,8 @@
             android:label="@string/title_activity_team"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".DraftTeam" />
-        <activity android:name=".DataBaseTestingGrounds">
-        </activity>
+        <activity android:name=".DataBaseTestingGrounds"></activity>
+        <activity android:name=".LeagueStats"></activity>
     </application>
 
 </manifest>
