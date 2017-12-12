@@ -459,7 +459,7 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
     public String getBestAvgAttrOfTeamsForBatters(String attr){
         String query =
                 "SELECT t.team_name " +
-                "FROM " + TABLE_TEAMS + " t, " + TABLE_BATTERS + " b " +
+                "FROM " + TABLE_TEAMS + " t, " + TABLE_BATTERS + " b, " + TABLE_PLAYERS + " p " +
                 "WHERE p.user_id = t._id AND p._id = b._id " +
                 "GROUP BY t.team_name " +
                 "HAVING AVG(b."+attr+") >= (" +
@@ -479,7 +479,7 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
     public String getBestAvgAttrOfTeamsForPitchers(String attr){
         String query =
                 "SELECT t.team_name " +
-                "FROM " + TABLE_TEAMS + " t, " + TABLE_PITCHERS + " pit " +
+                "FROM " + TABLE_TEAMS + " t, " + TABLE_PITCHERS + "pit, " + TABLE_PLAYERS + " p " +
                 "WHERE p.user_id = t._id AND p._id = pit._id " +
                 "GROUP BY t.team_name " +
                 "HAVING AVG(pit."+attr+") >= (" +
