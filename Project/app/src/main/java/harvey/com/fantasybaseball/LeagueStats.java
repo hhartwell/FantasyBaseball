@@ -1,15 +1,19 @@
 package harvey.com.fantasybaseball;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
 public class LeagueStats extends AppCompatActivity {
-
+    private ExcelToSQLite databaseHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_league_stats);
+        databaseHelper = new ExcelToSQLite(this);
+        setBA();
     }
 
 
@@ -17,11 +21,13 @@ public class LeagueStats extends AppCompatActivity {
         TextView bestBA = (TextView) findViewById(R.id.bestBA);
         //Get team name with best batting average
         //and set it to team name
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+        Cursor cursor = db.rawQuery(databaseHelper.getBestAvgAttrOfTeamsForPitchers("ba"),null);
+        cursor.moveToFirst();
+        String teamName=cursor.getString(0);
+        String text= "The team with the best Batting Average: " + teamName;
 
-        String teamName="Bob";
-        String text= "The team with the best Batting Average: " + teamName +"having ";
-
-        //bestBA.setText(text);
+        bestBA.setText(text);
 
     }
     public void setHITS(){
@@ -30,7 +36,7 @@ public class LeagueStats extends AppCompatActivity {
         //and set it to team name
 
         String teamName="Bob";
-        String text= "The team with the most Hits: " + teamName+ "with ";
+        String text= "The team with the most Hits: " + teamName;
         //bestHITS.setText(text);
 
     }
@@ -41,7 +47,7 @@ public class LeagueStats extends AppCompatActivity {
 
         String homeruns = "32";
         String teamName="Bob";
-        String text= "The team with the most HRs: " + teamName +"with "+ homeruns;
+        String text= "The team with the most HRs: " + teamName;
         //bestHR.setText(text);
 
     }
@@ -52,7 +58,7 @@ public class LeagueStats extends AppCompatActivity {
         //and set it to team name
         String wins = "12";
         String teamName="Bob";
-        String text= "The team with the most WINS: " + teamName+ "with ";
+        String text= "The team with the most WINS: " + teamName;
         //bestWINS.setText(text);
     }
     public void setWHIP(){
@@ -61,7 +67,7 @@ public class LeagueStats extends AppCompatActivity {
         //and set it to team name
         String whip = "1.232";
         String teamName="Bob";
-        String text= "The team with best WHIP: " + teamName +"having ";
+        String text= "The team with best WHIP: " + teamName;
         //bestWINS.setText(text);
     }
     public void setERA(){
@@ -70,7 +76,7 @@ public class LeagueStats extends AppCompatActivity {
         //and set it to team name
         String era ="2.232";
         String teamName="Bob";
-        String text= "The team with the best ERA: " + teamName +"having ";
+        String text= "The team with the best ERA: " + teamName;
         //bestERA.setText(text);
     }
 
