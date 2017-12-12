@@ -482,12 +482,11 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
                 "FROM " + TABLE_TEAMS + " t, " + TABLE_PITCHERS + " pit, " + TABLE_PLAYERS + " p " +
                 "WHERE p.user_id = t._id AND p._id = pit._id " +
                 "GROUP BY t.team_name " +
-                "HAVING AVG(pit."+attr+") >= (" +
+                "HAVING AVG(pit."+attr+") <= (" +
                         "SELECT AVG(pit."+attr+") " +
                         "FROM players p, pitchers pit, teams t " +
                         "WHERE t._id = p.user_id AND p._id = pit._id " +
                         "GROUP BY t.team_name);";
-
         return query;
     }
     /**
