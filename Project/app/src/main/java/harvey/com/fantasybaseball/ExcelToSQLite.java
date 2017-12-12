@@ -448,7 +448,8 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
                     "SELECT b._id " +
                     "FROM " + TABLE_BATTERS + " b " +
                     "WHERE b.h < 50) " +
-                "AND p.user_id IS NULL;";
+                "AND p.user_id IS NULL " +
+                "ORDER BY b.ba DESC;";
         return query;
     }
 
