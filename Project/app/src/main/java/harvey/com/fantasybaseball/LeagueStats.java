@@ -64,7 +64,7 @@ public class LeagueStats extends AppCompatActivity {
         cursor.moveToFirst();
         String teamName=cursor.getString(0);
         String text= "The team with the best ERA: " + teamName;
-        //bestERA.setText(text);
+        bestERA.setText(text);
     }
 
 }
