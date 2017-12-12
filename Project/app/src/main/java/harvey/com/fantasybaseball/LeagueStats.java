@@ -22,7 +22,7 @@ public class LeagueStats extends AppCompatActivity {
         //Get team name with best batting average
         //and set it to team name
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery(databaseHelper.getBestAvgAttrOfTeamsForPitchers("ba"),null);
+        Cursor cursor = db.rawQuery(databaseHelper.getBestAvgAttrOfTeamsForBatters("ba"),null);
         cursor.moveToFirst();
         String teamName=cursor.getString(0);
         String text= "The team with the best Batting Average: " + teamName;
