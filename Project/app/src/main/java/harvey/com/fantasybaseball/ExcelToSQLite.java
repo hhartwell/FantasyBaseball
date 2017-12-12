@@ -482,7 +482,7 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
                         "FROM " + TABLE_TEAMS + " t, " + TABLE_BATTERS + " b, " + TABLE_PITCHERS + " pit " +
                         "WHERE p.user_id = t._id AND b._id = p._id AND p._id = pit._id " +
                         "GROUP BY t.team_name " +
-                        "HAVING AVG(pit."+attr+") >= IN(" +
+                        "HAVING AVG(pit."+attr+") >= IN (" +
                         "SELECT AVG(pit."+attr+") " +
                         "FROM players p, batters b, teams t " +
                         "WHERE t._id = p.user_id AND p._id = b._id " +
