@@ -501,7 +501,8 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
                 "SELECT pit._id " +
                 "FROM " + TABLE_PITCHERS + " pit " +
                 "WHERE pit.w < 5) " +
-                "AND p.user_id IS NULL;";
+                "AND p.user_id IS NULL " +
+                "ORDER BY pit.era ASC;";
         return query;
     }
 }
