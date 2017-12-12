@@ -14,6 +14,8 @@ public class LeagueStats extends AppCompatActivity {
         setContentView(R.layout.activity_league_stats);
         databaseHelper = new ExcelToSQLite(this);
         setBA();
+        setWINS();
+
     }
 
 
@@ -30,36 +32,19 @@ public class LeagueStats extends AppCompatActivity {
         bestBA.setText(text);
 
     }
-    public void setHITS(){
-        TextView bestHITS = (TextView) findViewById(R.id.bestHITS);
-        //Get team name with most hits
-        //and set it to team name
 
-        String teamName="Bob";
-        String text= "The team with the most Hits: " + teamName;
-        //bestHITS.setText(text);
-
-    }
-    public void setHR(){
-        TextView bestHR = (TextView) findViewById(R.id.bestHR);
-        //Get team name with most HR
-        //and set it to team name
-
-        String homeruns = "32";
-        String teamName="Bob";
-        String text= "The team with the most HRs: " + teamName;
-        //bestHR.setText(text);
-
-    }
 
     public void setWINS(){
         TextView bestWINS = (TextView) findViewById(R.id.bestWINS);
         //team name with the most wins
         //and set it to team name
-        String wins = "12";
-        String teamName="Bob";
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+        Cursor cursor = db.rawQuery(databaseHelper.getBestAvgAttrOfTeamsForPitchers("w"),null);
+        cursor.moveToFirst();
+        String teamName=cursor.getString(0);
+
         String text= "The team with the most WINS: " + teamName;
-        //bestWINS.setText(text);
+        bestWINS.setText(text);
     }
     public void setWHIP(){
         TextView bestWINS = (TextView) findViewById(R.id.bestWHIP);
