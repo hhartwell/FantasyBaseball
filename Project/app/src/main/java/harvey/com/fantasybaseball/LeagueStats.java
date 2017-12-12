@@ -14,7 +14,7 @@ public class LeagueStats extends AppCompatActivity {
         setContentView(R.layout.activity_league_stats);
         databaseHelper = new ExcelToSQLite(this);
         setBA();
-        setWINS();
+        setERA();
 
     }
 
@@ -33,19 +33,20 @@ public class LeagueStats extends AppCompatActivity {
 
     }
 
-
+/*
     public void setWINS(){
         TextView bestWINS = (TextView) findViewById(R.id.bestWINS);
         //team name with the most wins
         //and set it to team name
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery(databaseHelper.getBestAvgAttrOfTeamsForPitchers("w"),null);
+        Cursor cursor = db.rawQuery(databaseHelper.getBestAvgAttrOfTeamsForPitchers("era"),null);
         cursor.moveToFirst();
         String teamName=cursor.getString(0);
 
         String text= "The team with the most WINS: " + teamName;
         bestWINS.setText(text);
     }
+    */
     public void setWHIP(){
         TextView bestWINS = (TextView) findViewById(R.id.bestWHIP);
         //team name with the best WHIP
@@ -58,9 +59,10 @@ public class LeagueStats extends AppCompatActivity {
     public void setERA(){
         TextView bestERA = (TextView) findViewById(R.id.bestERA);
         //team name with the most wins
-        //and set it to team name
-        String era ="2.232";
-        String teamName="Bob";
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+        Cursor cursor = db.rawQuery(databaseHelper.getBestAvgAttrOfTeamsForPitchers("era"),null);
+        cursor.moveToFirst();
+        String teamName=cursor.getString(0);
         String text= "The team with the best ERA: " + teamName;
         //bestERA.setText(text);
     }
