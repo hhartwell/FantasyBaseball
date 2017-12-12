@@ -503,7 +503,7 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
                 "FROM " + TABLE_PITCHERS + " pit " +
                 "WHERE pit.w < 5) " +
                 "AND p.user_id IS NULL " +
-                "ORDER BY pit.era ASC;";
+                "ORDER BY pitcher.era ASC;";
         return query;
     }
 }
