@@ -20,6 +20,7 @@ public class LeagueStats extends AppCompatActivity {
 
         String teamName="Bob";
         String text= "The team with the best Batting Average: " + teamName +"having ";
+
         //bestBA.setText(text);
 
     }

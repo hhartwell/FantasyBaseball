@@ -451,14 +451,39 @@ public class ExcelToSQLite extends SQLiteOpenHelper {
                 "AND p.user_id IS NULL;";
         return query;
     }
-    public String getBestBAOfTeams(){
+
+    /**
+     * finds the team with the best attribute among average
+     * @return
+     */
+    public String getBestAvgAttrOfTeamsForBatters(String attr){
         String query =
                 "SELECT t.team_name " +
-                "FROM " + TABLE_TEAMS + " t, " + TABLE_BATTERS + " b, " + TABLE_PITCHERS + " p " +
-                "WHERE p.user_id = t._id AND b._id = p._id " +
+                "FROM " + TABLE_TEAMS + " t, " + TABLE_BATTERS + " b, " + TABLE_PITCHERS + " pit " +
+                "WHERE p.user_id = t._id AND p._id = b._id ANDp._id = pit._id " +
                 "GROUP BY t.team_name " +
-                "HAVING AVG(b.ba) >= ALL IN (" +
-                        "SELECT AVG(b.ba) " +
+                "HAVING AVG(b."+attr+") >= ALL IN (" +
+                        "SELECT AVG(b."+attr+") " +
+                        "FROM players p, batters b, teams t " +
+                        "WHERE t._id = p.user_id AND p._id = b._id " +
+                        "GROUP BY t.team_name);";
+
+        return query;
+    }
+
+    /**
+     * finds team with best attribute among pithcers
+     * @param attr
+     * @return
+     */
+    public String getBestAvgAttrOfTeamsForPitchers(String attr){
+        String query =
+                "SELECT t.team_name " +
+                        "FROM " + TABLE_TEAMS + " t, " + TABLE_BATTERS + " b, " + TABLE_PITCHERS + " pit " +
+                        "WHERE p.user_id = t._id AND b._id = p._id AND p._id = pit._id " +
+                        "GROUP BY t.team_name " +
+                        "HAVING AVG(pit."+attr+") >= ALL IN (" +
+                        "SELECT AVG(pit."+attr+") " +
                         "FROM players p, batters b, teams t " +
                         "WHERE t._id = p.user_id AND p._id = b._id " +
                         "GROUP BY t.team_name);";
