@@ -1,5 +1,10 @@
 package harvey.com.fantasybaseball;
 
+/**
+ * NOTE you will see a lot of deprecated functions. We re-wrote these to satisfy complexity
+ * requirements.
+ */
+
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.database.Cursor;

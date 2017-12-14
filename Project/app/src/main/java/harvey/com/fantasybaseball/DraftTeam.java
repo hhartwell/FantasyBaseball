@@ -45,9 +45,22 @@ public class DraftTeam extends AppCompatActivity {
             EditText pid = (EditText) findViewById(R.id.playerID);
             pid.setText("");
 
-            //SQL query batters and update tableview
+
             SQLiteDatabase db = databaseHelper.getWritableDatabase();
-            Cursor cursor = db.rawQuery(databaseHelper.getBestBattingAvg(), null);
+            Cursor cursor = db.rawQuery(databaseHelper.getBestAvgAttrOfTeamsForBatters("ba"),null);
+            if (cursor.getCount()>0){
+                cursor.moveToFirst();
+                String teamName=cursor.getString(0);
+                String text= "Current team with the best Batting Average: " + teamName;
+                TextView bestBA = (TextView) findViewById(R.id.bestBA);
+                bestBA.setText(text);
+            }
+
+
+
+            //SQL query batters and update tableview
+            db = databaseHelper.getWritableDatabase();
+            cursor = db.rawQuery(databaseHelper.getBestBattingAvg(), null);
             Log.d(TAG, databaseHelper.getSelectAllPlayersList().toString());
             // need a cursor adapter
             CursorAdapter cursorAdapter = new SimpleCursorAdapter(
@@ -61,6 +74,16 @@ public class DraftTeam extends AppCompatActivity {
             lv.setAdapter(cursorAdapter);
         }
         if (playersDrafted >=10 && playersDrafted <15){
+
+            SQLiteDatabase db = databaseHelper.getWritableDatabase();
+            Cursor cursor = db.rawQuery(databaseHelper.getBestAvgAttrOfTeamsForBatters("ba"),null);
+            cursor.moveToFirst();
+            String teamName=cursor.getString(0);
+            String text= "Current team with the best Batting Average: " + teamName;
+            TextView bestBA = (TextView) findViewById(R.id.bestBA);
+            bestBA.setText(text);
+
+
             TextView header=(TextView) findViewById(R.id.header);
             header.setText("Player                           PID           WINS         ERA         WHIP");
             TextView textView = (TextView) findViewById(R.id.prompt);
@@ -70,8 +93,8 @@ public class DraftTeam extends AppCompatActivity {
             EditText pid = (EditText) findViewById(R.id.playerID);
             pid.setText("");
 
-            SQLiteDatabase db = databaseHelper.getWritableDatabase();
-            Cursor cursor = db.rawQuery(databaseHelper.getBestERAofPlayers(), null);
+
+            cursor = db.rawQuery(databaseHelper.getBestERAofPlayers(), null);
             // need a cursor adapter
             CursorAdapter cursorAdapter = new SimpleCursorAdapter(
                     this,
@@ -143,23 +166,12 @@ public class DraftTeam extends AppCompatActivity {
 
             teamCreated=true;
 
-            //SQL INSERT LOGIC GOES BELOW to insert team in to teams table
-
-
         }
         updateViews(); //updates the table to show players availible and the textview to show how many players left.
 
 
         playersDrafted++;
-        /*
-        AlertDialog.Builder dialog=new AlertDialog.Builder(DraftTeam.this);
-        dialog.setTitle("Player Drafted");
-        dialog.setMessage("Player has been drafted!");
-        dialog.setPositiveButton("OK", null);
-        dialog.show();
-        */
 
-        //update row in DB with the PID and add the phone to the UID cell to show it is drafted.
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
         SQLiteStatement stmt = db.compileStatement(databaseHelper.getPlayerDraftedQuery(playerID, phone));
         stmt.execute();
@@ -172,98 +184,4 @@ public class DraftTeam extends AppCompatActivity {
         }
 
     }
-    /*
-***TO BE DELETED***
-    public void sortByBA(View view){
-        ListView listView = (ListView) (findViewById(R.id.listView));
-        //Select players ordered by their batting average
-        SQLiteDatabase db = databaseHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery(databaseHelper.getOrderByQuery("ba"), null);
-        // need a cursor adapter
-        CursorAdapter cursorAdapter = new SimpleCursorAdapter(
-                this,
-                R.layout.simple_list_item_5,
-                cursor,
-                new String[]{"player_name", "_id",  "ba", "h", "hr"},
-                new int[] {R.id.player_name_list, R.id.player_id_list, R.id.player_first, R.id.player_second, R.id.player_third},
-                0);
-        listView.setAdapter(cursorAdapter);
-    }
-
-    public void sortByHits(View view){
-        ListView listView = (ListView) (findViewById(R.id.listView));
-        //Select players ordered by their hits
-        SQLiteDatabase db = databaseHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery(databaseHelper.getOrderByQuery("h"), null);
-        // need a cursor adapter
-        CursorAdapter cursorAdapter = new SimpleCursorAdapter(
-                this,
-                R.layout.simple_list_item_5,
-                cursor,
-                new String[]{"player_name", "_id",  "ba", "h", "hr"},
-                new int[] {R.id.player_name_list, R.id.player_id_list, R.id.player_first, R.id.player_second, R.id.player_third},
-                0);
-        listView.setAdapter(cursorAdapter);
-    }
-    public void sortByHR(View view){
-        ListView listView = (ListView) (findViewById(R.id.listView));
-        //Select players ordered by their home runs
-        SQLiteDatabase db = databaseHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery(databaseHelper.getOrderByQuery("hr"), null);
-        // need a cursor adapter
-        CursorAdapter cursorAdapter = new SimpleCursorAdapter(
-                this,
-                R.layout.simple_list_item_5,
-                cursor,
-                new String[]{"player_name", "_id",  "ba", "h", "hr"},
-                new int[] {R.id.player_name_list, R.id.player_id_list, R.id.player_first, R.id.player_second, R.id.player_third},
-                0);
-        listView.setAdapter(cursorAdapter);
-    }
-    public void sortByW(View view){
-        ListView listView = (ListView) (findViewById(R.id.listView));
-        //Select players ordered by their wins
-        SQLiteDatabase db = databaseHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery(databaseHelper.getOrderByQuery("w"), null);
-        // need a cursor adapter
-        CursorAdapter cursorAdapter = new SimpleCursorAdapter(
-                this,
-                R.layout.simple_list_item_5,
-                cursor,
-                new String[]{"player_name", "_id",  "w", "era", "whip"},
-                new int[] {R.id.player_name_list, R.id.player_id_list, R.id.player_first, R.id.player_second, R.id.player_third},
-                0);
-        listView.setAdapter(cursorAdapter);
-    }
-    public void sortByERA(View view){
-        ListView listView = (ListView) (findViewById(R.id.listView));
-        //Select players ordered by their ERA
-        SQLiteDatabase db = databaseHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery(databaseHelper.getOrderByQuery("era"), null);
-        // need a cursor adapter
-        CursorAdapter cursorAdapter = new SimpleCursorAdapter(
-                this,
-                R.layout.simple_list_item_5,
-                cursor,
-                new String[]{"player_name", "_id",  "w", "era", "whip"},
-                new int[] {R.id.player_name_list, R.id.player_id_list, R.id.player_first, R.id.player_second, R.id.player_third},
-                0);
-        listView.setAdapter(cursorAdapter);
-    }
-    public void sortByWHIP(View view){
-        ListView listView = (ListView) (findViewById(R.id.listView));
-        //Select players ordered by their WHIP
-        SQLiteDatabase db = databaseHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery(databaseHelper.getOrderByQuery("whip"), null);
-        // need a cursor adapter
-        CursorAdapter cursorAdapter = new SimpleCursorAdapter(
-                this,
-                R.layout.simple_list_item_5,
-                cursor,
-                new String[]{"player_name", "_id",  "w", "era", "whip"},
-                new int[] {R.id.player_name_list, R.id.player_id_list, R.id.player_first, R.id.player_second, R.id.player_third},
-                0);
-        listView.setAdapter(cursorAdapter);
-    }
-    */
 }

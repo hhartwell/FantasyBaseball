@@ -19,62 +19,7 @@
             android:id="@+id/stats"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Player                                  PID           AVG         HITS         HR" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-            <Button
-                android:id="@+id/bavg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="sortByBA"
-                android:text="BA" />
-
-            <Button
-                android:id="@+id/hits"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="sortByHits"
-                android:text="HITS" />
-
-            <Button
-                android:id="@+id/HR"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="sortByHR"
-                android:text="HR" />
-
-            <Button
-                android:id="@+id/wins"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="sortByW"
-                android:text="W" />
-
-            <Button
-                android:id="@+id/era"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="sortByERA"
-                android:text="ERA" />
-
-            <Button
-                android:id="@+id/whip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="sortByWHIP"
-                android:text="WHIP" />
-        </LinearLayout>
+            android:text="Player                                  PID           AVG         ERA" />
 
         <ListView
             android:id="@+id/roster"

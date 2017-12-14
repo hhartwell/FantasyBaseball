@@ -41,14 +41,6 @@ import javax.net.ssl.HttpsURLConnection;
 public class MainActivity extends AppCompatActivity {
     static final String TAG = "MAIN ACTIVITY";
     CursorAdapter cursorAdapter;
-    // still need to create the listView
-    int weekCount =0;
-    int team1Wins = 0;
-    int team2Wins = 0;
-    int team3Wins = 0;
-    int team4Wins = 0;
-    int team5Wins = 0;
-    int team6Wins = 0;
     boolean playersPopulated=false;
 
 
@@ -75,17 +67,10 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-
-
-
-
         //initListView();
         populateTeamsList();
         addListViewItemClickListener();
     }
-
 
     @Override
     protected void onStop() {
@@ -114,17 +99,8 @@ public class MainActivity extends AppCompatActivity {
             Intent i = new Intent(this, DraftTeam.class);
             startActivity(i);
         }
-        else if (menuId == R.id.sendScoreAction){
-            // sends the winning team's score to all players
-            try {
-                simulateWeek();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            Toast.makeText(this, "Winning Scores sent", Toast.LENGTH_SHORT).show();
-        }
+
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -160,180 +136,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    private void startTeamActivity(){
-        Intent i = new Intent(this, Team.class);
-        startActivity(i);
-    }
 
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void simulateWeek() throws IOException, InterruptedException {
-
-        //Will pull these numbers from the DB
-
-
-        //Becuase there is no live data currently and pheasibility issues, we are going to script the season
-        // for demonstration purposes.
-
-        ArrayList<String> teamNameArr = new ArrayList<String>();
-        ArrayList<String> teamPhoneArr = new ArrayList<String>();
-        SQLiteDatabase db = databaseHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery(databaseHelper.getTeamNameQuery(), null);
-        while (cursor.moveToNext()){
-            teamNameArr.add(cursor.getString(0));
-            teamPhoneArr.add(String.valueOf(cursor.getLong(1)));
-        }
-
-
-        if (weekCount==0){
-
-            sendScores(teamPhoneArr.get(0), ("You beat "+teamNameArr.get(1)+" by 3 points!"));
-
-            sendScores(teamPhoneArr.get(1), ("You Lost to "+teamNameArr.get(0)+" by 3 points!"));
-
-            team1Wins++;
-
-            sendScores(teamPhoneArr.get(2), ("You beat "+teamNameArr.get(3)+" by 7 points!"));
-            sendScores(teamPhoneArr.get(3), ("You lost to "+teamNameArr.get(2)+" by 7 points!"));
-            team3Wins++;/*
-            sendScores(teamPhoneArr.get(4), ("You beat "+teamNameArr.get(5)+" by 2 points!"));
-            sendScores(teamPhoneArr.get(5), ("You lost to "+teamNameArr.get(4)+" by 2 points!"));
-            team5Wins++;
-            weekCount++;
-            */
-            Toast.makeText(this, "Winning Scores sent", Toast.LENGTH_SHORT).show();
-            weekCount++;
-            return;
-
-        }
-        if (weekCount==1){
-            weekCount++;
-            Toast.makeText(this, "Winning Scores sent", Toast.LENGTH_SHORT).show();
-
-            sendScores(teamPhoneArr.get(0), ("You beat "+teamNameArr.get(3)+" by 3 points!"));
-
-            sendScores(teamPhoneArr.get(3), ("You Lost to "+teamNameArr.get(0)+" by 3 points!"));
-            sendScores(teamPhoneArr.get(1), ("You beat "+teamNameArr.get(2)+" by 7 points!"));
-            sendScores(teamPhoneArr.get(2), ("You lost to "+teamNameArr.get(1)+" by 7 points!"));
-
-            team1Wins++;
-
-
-            team2Wins++;
-
-            sendScores(teamPhoneArr.get(0), "The winner is " + teamNameArr.get(0)+" ! The season has ended");
-            sendScores(teamPhoneArr.get(1), "The winner is " + teamNameArr.get(0)+" ! The season has ended");
-            sendScores(teamPhoneArr.get(2), "The winner is " + teamNameArr.get(0)+" ! The season has ended");
-            sendScores(teamPhoneArr.get(3), "The winner is " + teamNameArr.get(0)+" ! The season has ended");
-
-            /*
-            team2Wins++;
-            sendScores(team4Phone, ("You beat "+team6Name+" by 1 point!"));
-            sendScores(team6Phone, ("You Lost to "+team4Name+" by 1 point!"));
-            team4Wins++;
-            weekCount++;*/
-
-
-            return;
-
-        }/*
-        if (weekCount==2){
-            AlertDialog.Builder dialog=new AlertDialog.Builder(MainActivity.this);
-            dialog.setTitle("Season Simulator");
-            dialog.setMessage("Week 3 has been simulated,!"+ "The winner is " + team1Name+"! The season has ended");
-            dialog.setPositiveButton("OK", null);
-            dialog.show();
-            sendScores(team1Phone, ("You beat "+team6Name+" by 2 points!"));
-            sendScores(team6Phone, ("You Lost to "+team1Name+"by 2 points!"));
-            team1Wins++;
-            sendScores(team2Phone, ("You beat "+team2Name+" by 11points!"));
-            sendScores(team5Phone, ("You Lost to "+team5Name+"by 11 points!"));
-            team2Wins++;
-            sendScores(team3Phone, ("You beat "+team3Name+" by 3 points!"));
-            sendScores(team4Phone, ("You Lost to "+team4Name+"by 3 points!"));
-            team4Wins++;
-            weekCount++;
-
-
-            sendScores(team1Phone, "The winner is " + team1Name+"! The season has ended");
-            sendScores(team2Phone, "The winner is " + team1Name+"! The season has ended");
-            sendScores(team3Phone, "The winner is " + team1Name+"! The season has ended");
-            sendScores(team4Phone, "The winner is " + team1Name+"! The season has ended");
-            sendScores(team5Phone, "The winner is " + team1Name+"! The season has ended");
-            sendScores(team6Phone, "The winner is " + team1Name+"! The season has ended");
-            return;
-        }*/
-
-
-    }
-
-
-    /**
-     * sends out the winning team via text via Message360 REST API
-     */
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private int sendScores(String sNumber, String sBody) throws IOException {
-
-
-        /**
-         * Fun Fact about carriers:
-         *
-         * When using a longcode (normal 10 digit phone number), the carriers do not like when you send more
-         * than one SMS per second, otherwise, the sending number may be blocked.
-         *
-         * I have put in Thread.sleep with a generous time to buffer the time between messages being sent so as to prevent numbers
-         * from being blocked.
-         */
-
-        try {
-            Thread.sleep(2500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-
-        URL url = new URL("https://api.message360.com/api/v3/sms/sendsms.xml");
-        String userPassword = "2f50b196-af9c-dcc7-1228-e08b62128704:51a9ae603a079aea1eb394661770ff92"; //Message360 Account SID and Password
-
-        HttpsURLConnection httpCon = (HttpsURLConnection) url.openConnection();
-        httpCon.setDoInput(true);
-        httpCon.setDoOutput(true);
-        String encoded = Base64.getEncoder().encodeToString((userPassword).getBytes(StandardCharsets.UTF_8));  //required to send HTTPS POST
-        httpCon.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2"); //The API requires a User agent
-        httpCon.setRequestProperty("Authorization", "Basic " + encoded);
-        httpCon.setRequestMethod("POST");
-        OutputStream os = httpCon.getOutputStream();
-        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-
-        String to=sNumber;
-        String body = sBody;
-        String from = "5092609698"; //Number owned in Message360
-
-        String nTo="&to=" +to;
-        String nFrom  = "&from=+1"+from; //number being sent from, Must be owned in Message360 account. adds required +1 before from
-        String method = "&method=POST";
-        String nBody ="&body="+body;
-        String smartSMS="&smartsms=false";
-        String parameters= nTo + nFrom + method + nBody + smartSMS ;
-
-        writer.write(parameters); //parameters for the POST request required by Message360
-        writer.flush();
-        writer.close();
-        os.close();
-        httpCon.getResponseCode();
-        httpCon.connect();
-        httpCon.disconnect();
-        Log.d("MESSAGE SENT", (to +" content:   "+body));
-        return 0;
-
-
-    }
-
-
-    public void showStats(View view){
-        Intent i = new Intent(MainActivity.this, LeagueStats.class);
-        startActivity(i);
-    }
     /**
      * function used for testing purposes only.
      * creates a super simple list as a place holder

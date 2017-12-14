@@ -11,6 +11,12 @@
     app:layout_constraintRight_toRightOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 
+    <TextView
+        android:id="@+id/bestBA"
+        android:layout_width="match_parent"
+        android:layout_height="17dp"
+        android:text="bestAVG" />
+
     <EditText
         android:id="@+id/teamName"
         android:layout_width="match_parent"
